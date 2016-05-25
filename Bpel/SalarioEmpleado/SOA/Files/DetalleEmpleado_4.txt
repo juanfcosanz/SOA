@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="UTF-8" ?><WriteEmpleado xmlns="http://erp_oracle.cenam"><Empleado><noEmpleado>JFSH211090</noEmpleado><salarioTotal>280.1999969482422</salarioTotal><impuestoTotal>1.199999988079071</impuestoTotal><deduccionTotal>82.9000015258789</deduccionTotal><pagoTotal>361.899998486042</pagoTotal></Empleado></WriteEmpleado>
