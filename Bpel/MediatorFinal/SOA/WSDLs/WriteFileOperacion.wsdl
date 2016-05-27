@@ -1,0 +1,29 @@
+<wsdl:definitions
+     name="WriteFileOperacion"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/file/Bpel/MediatorFinal/WriteFileOperacion"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/file/Bpel/MediatorFinal/WriteFileOperacion"
+     xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:imp1="http://erp.oracle.cenam"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+  <plt:partnerLinkType name="WriteOperacion_plt" >
+    <plt:role name="WriteOperacion_role" >
+      <plt:portType name="tns:WriteOperacion_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+      <schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/file/Bpel/MediatorFinal/WriteFileOperacion"
+              xmlns="http://www.w3.org/2001/XMLSchema" >
+        <import namespace="http://erp.oracle.cenam" schemaLocation="../Schemas/operacionWrite_schema.xsd" />
+      </schema>
+    </wsdl:types>
+    <wsdl:message name="WriteOperacion_msg">
+        <wsdl:part name="body" element="imp1:Operaciones"/>
+    </wsdl:message>
+    <wsdl:portType name="WriteOperacion_ptt">
+        <wsdl:operation name="WriteOperacion">
+            <wsdl:input message="tns:WriteOperacion_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

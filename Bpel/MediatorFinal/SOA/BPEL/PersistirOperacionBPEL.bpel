@@ -1,0 +1,116 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Wed May 25 17:34:07 CDT 2016
+  Author:  NeryS
+  Type: BPEL 2.0 Process
+  Purpose: One Way BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="PersistirOperacionBPEL"
+               targetNamespace="http://erp.oracle.cenam/Bpel/MediatorFinal/PersistirOperacionBPEL"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://erp.oracle.cenam/Bpel/MediatorFinal/PersistirOperacionBPEL"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:ui="http://xmlns.oracle.com/soa/designer"
+               xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/file/Bpel/MediatorFinal/WriteFileOperacion"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension" xmlns:ns2="http://erp.oracle.cenam"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions" xmlns:ess="http://xmlns.oracle.com/scheduler"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:ns3="http://xmlns.oracle.com/pcbpel/adapter/db/Bpel/MediatorFinal/JDBCWeather"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ns4="http://xmlns.oracle.com/pcbpel/adapter/db/top/JDBCWeather">
+
+  <import ui:processWSDL="true" namespace="http://erp.oracle.cenam/Bpel/MediatorFinal/PersistirOperacionBPEL" location="../WSDLs/PersistirOperacionBPEL.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      PARTNERLINKS                                                      
+      List of services participating in this BPEL process               
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  --> 
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="persistiroperacion_client" partnerLinkType="client:PersistirOperacionBPEL" myRole="PersistirOperacionBPELProvider"/>
+    <partnerLink name="WriteFileOperacion" partnerLinkType="ns1:WriteOperacion_plt" partnerRole="WriteOperacion_role"/>
+    <partnerLink name="JDBCWeather" partnerLinkType="ns3:JDBCWeather_plt" partnerRole="JDBCWeather_role"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:PersistirOperacionBPELRequestMessage"/>
+    <variable name="WriteOperacionInputVariable" messageType="ns1:WriteOperacion_msg"/>
+    <variable name="persistirOperacionInputVariable" messageType="ns3:WeatherCollection_msg"/>
+  </variables>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in PersistirOperacionBPEL.wsdl) -->
+    <receive name="receiveInput" partnerLink="persistiroperacion_client" portType="client:PersistirOperacionBPEL" operation="process" variable="inputVariable" createInstance="yes"/>
+    <assign name="VarAsig">
+      <copy>
+        <from>$inputVariable.payload/ns2:operacion</from>
+        <to>$WriteOperacionInputVariable.body/ns2:Operacion/ns2:metodo</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:response</from>
+        <to>$WriteOperacionInputVariable.body/ns2:Operacion/ns2:response</to>
+      </copy>
+      <copy>
+        <from>xp20:current-date()</from>
+        <to>$WriteOperacionInputVariable.body/ns2:Operacion/ns2:fecha</to>
+      </copy>
+    </assign>
+    <invoke name="InvokeWiteFile" partnerLink="WriteFileOperacion"
+            portType="ns1:WriteOperacion_ptt" operation="WriteOperacion" inputVariable="WriteOperacionInputVariable"
+            bpelx:invokeAsDetail="no"/>
+    <assign name="PersistirJDBC">
+      <copy>
+        <from>concat(substring(string(ora:getComponentName()),-4),substring(string(xp20:current-time()),8))</from>
+        <to>$persistirOperacionInputVariable.WeatherCollection/ns4:Weather/ns4:id</to>
+      </copy>
+      <copy>
+        <from>substring($inputVariable.payload/ns2:response,1,250)</from>
+        <to>$persistirOperacionInputVariable.WeatherCollection/ns4:Weather/ns4:response</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:operacion</from>
+        <to>$persistirOperacionInputVariable.WeatherCollection/ns4:Weather/ns4:metodo</to>
+      </copy>
+      <copy>
+        <from>xp20:current-date()</from>
+        <to>$persistirOperacionInputVariable.WeatherCollection/ns4:Weather/ns4:fecha</to>
+      </copy>
+    </assign>
+    <invoke name="InvokeJDBCWeather" partnerLink="JDBCWeather"
+            portType="ns3:JDBCWeather_ptt" operation="persistirOperacion"
+            inputVariable="persistirOperacionInputVariable" bpelx:invokeAsDetail="no"/>
+  </sequence>
+</process>

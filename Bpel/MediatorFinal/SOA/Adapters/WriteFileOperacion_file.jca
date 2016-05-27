@@ -1,0 +1,13 @@
+<adapter-config name="WriteFileOperacion" adapter="file" wsdlLocation="../WSDLs/WriteFileOperacion.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/FileAdapter"/>
+  <endpoint-interaction portType="WriteOperacion_ptt" operation="WriteOperacion">
+    <interaction-spec className="oracle.tip.adapter.file.outbound.FileInteractionSpec">
+      <property name="PhysicalDirectory" value="C:\JDeveloper\mywork\Bpel\MediatorFinal\SOA\Files"/>
+      <property name="Append" value="false"/>
+      <property name="FileNamingConvention" value="Operacion%SEQ%.txt"/>
+      <property name="NumberMessages" value="1"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>
