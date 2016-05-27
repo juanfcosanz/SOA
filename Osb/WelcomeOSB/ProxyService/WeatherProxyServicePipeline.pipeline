@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:pipelineEntry xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con2="http://www.bea.com/wli/sb/stages/transform/config">
+    <con:coreEntry>
+        <con:binding type="SOAP" isSoap12="false" xsi:type="con:SoapBindingType">
+            <con:wsdl ref="WelcomeOSB/WSDL/globalweather"/>
+            <con:binding>
+                <con:name>GlobalWeatherSoap</con:name>
+                <con:namespace>http://www.webserviceX.NET</con:namespace>
+            </con:binding>
+        </con:binding>
+        <con:xqConfiguration>
+            <con:snippetVersion>1.0</con:snippetVersion>
+        </con:xqConfiguration>
+    </con:coreEntry>
+    <con:router>
+        <con:pipeline type="request" name="request-N3f57f16c.N7f95e6c8.0.154f36d5e65.N8000">
+            <con:stage id="_StageId-N3f57f16c.N7f95e6c8.0.154f36d5e65.N7ffe" name="Stage1">
+                <con:context>
+                    <con1:userNsDecl prefix="web" namespace="http://www.webserviceX.NET"/>
+                </con:context>
+                <con:actions>
+                    <con2:assign varName="citiesRequest">
+                        <con1:comment>AssigncitiesRequest</con1:comment>
+                        <con1:id>_ActionId-N3f57f16c.N7f95e6c8.0.154f36d5e65.N7ff2</con1:id>
+                        <con2:expr>
+                            <con1:xqueryText>&lt;web:GetCitiesByCountry xmlns:web="http://www.webserviceX.NET">
+         &lt;web:CountryName>{$body/web:GetCitiesByCountry/web:CountryName/text()}&lt;/web:CountryName>
+&lt;/web:GetCitiesByCountry></con1:xqueryText>
+                        </con2:expr>
+                    </con2:assign>
+                    <con2:wsCallout>
+                        <con1:id>_ActionId-N3f57f16c.N7f95e6c8.0.154f36d5e65.N7ff9</con1:id>
+                        <con2:service ref="WelcomeOSB/BussinesService/WeatherBusinessService" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                        <con2:operation>GetCitiesByCountry</con2:operation>
+                        <con2:request>
+                            <con2:body wrapped="false">citiesRequest</con2:body>
+                        </con2:request>
+                        <con2:response>
+                            <con2:body wrapped="false">citiesResponse</con2:body>
+                        </con2:response>
+                        <con2:requestTransform/>
+                        <con2:responseTransform/>
+                    </con2:wsCallout>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:pipeline type="response" name="response-N3f57f16c.N7f95e6c8.0.154f36d5e65.N7fff">
+            <con:stage id="_StageId-N3f57f16c.N7f95e6c8.0.154f36d5e65.N7ffd" name="Stage1">
+                <con:context>
+                    <con1:userNsDecl prefix="web" namespace="http://www.webserviceX.NET"/>
+                </con:context>
+                <con:actions>
+                    <con2:replace varName="body" contents-only="true">
+                        <con1:id>_ActionId-N3f57f16c.N7f95e6c8.0.154f36d5e65.N7ff5</con1:id>
+                        <con2:expr>
+                            <con1:xqueryText>&lt;GetCitiesByCountryResponse xmlns="http://www.webserviceX.NET">
+         &lt;GetCitiesByCountryResult>{$citiesResponse/web:GetCitiesByCountryResult/text()}&lt;/GetCitiesByCountryResult>
+&lt;/GetCitiesByCountryResponse></con1:xqueryText>
+                        </con2:expr>
+                    </con2:replace>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:pipeline type="request" name="request-N3f57f16c.N7f95e6c8.0.154f36d5e65.N7ff1">
+            <con:stage id="_StageId-N3f57f16c.N7f95e6c8.0.154f36d5e65.N7fef" name="Request">
+                <con:context>
+                    <con1:userNsDecl prefix="web" namespace="http://www.webserviceX.NET"/>
+                </con:context>
+                <con:actions>
+                    <con2:assign varName="weatherRequest">
+                        <con1:id>_ActionId-N3f57f16c.N7f95e6c8.0.154f36d5e65.N7fe8</con1:id>
+                        <con2:expr>
+                            <con1:xqueryText><![CDATA[<web:GetWeather xmlns:web="http://www.webserviceX.NET">
+         <!--Optional:-->
+         <web:CityName>{$body/web:GetWeather/web:CityName/text()}</web:CityName>
+         <!--Optional:-->
+         <web:CountryName>{$body/web:GetWeather/web:CountryName/text()}</web:CountryName>
+</web:GetWeather>]]></con1:xqueryText>
+                        </con2:expr>
+                    </con2:assign>
+                    <con2:wsCallout>
+                        <con1:id>_ActionId-N3f57f16c.N7f95e6c8.0.154f36d5e65.N7feb</con1:id>
+                        <con2:service ref="WelcomeOSB/BussinesService/WeatherBusinessService" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                        <con2:operation>GetWeather</con2:operation>
+                        <con2:request>
+                            <con2:body wrapped="false">weatherRequest</con2:body>
+                        </con2:request>
+                        <con2:response>
+                            <con2:body wrapped="false">weatherResponse</con2:body>
+                        </con2:response>
+                        <con2:requestTransform/>
+                        <con2:responseTransform/>
+                    </con2:wsCallout>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:pipeline type="response" name="response-N3f57f16c.N7f95e6c8.0.154f36d5e65.N7ff0">
+            <con:stage id="_StageId-N3f57f16c.N7f95e6c8.0.154f36d5e65.N7fee" name="Response">
+                <con:context>
+                    <con1:userNsDecl prefix="web" namespace="http://www.webserviceX.NET"/>
+                </con:context>
+                <con:actions>
+                    <con2:replace varName="body" contents-only="true">
+                        <con1:id>_ActionId-N3f57f16c.N7f95e6c8.0.154f36d5e65.N7fe5</con1:id>
+                        <con2:expr>
+                            <con1:xqueryText>&lt;GetWeatherResponse xmlns="http://www.webserviceX.NET">
+         &lt;GetWeatherResult>{$weatherResponse/web:GetWeatherResult/text()}&lt;/GetWeatherResult>      
+&lt;/GetWeatherResponse></con1:xqueryText>
+                        </con2:expr>
+                    </con2:replace>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:flow>
+            <con:branch-node type="operation" id="_FlowId-N3f57f16c.57aa7212.0.154f33545a4.N7fff" name="BranchNode">
+                <con:context/>
+                <con:branch-table>
+                    <con:branch name="GetCitiesByCountry">
+                        <con:operator>equals</con:operator>
+                        <con:value/>
+                        <con:flow>
+                            <con:pipeline-node name="PipelinePairNodeGetCitiesByCoutry">
+                                <con:request>request-N3f57f16c.N7f95e6c8.0.154f36d5e65.N8000</con:request>
+                                <con:response>response-N3f57f16c.N7f95e6c8.0.154f36d5e65.N7fff</con:response>
+                            </con:pipeline-node>
+                        </con:flow>
+                    </con:branch>
+                    <con:branch name="GetWeather">
+                        <con:operator>equals</con:operator>
+                        <con:value/>
+                        <con:flow>
+                            <con:pipeline-node name="PipelinePairNodeGetweather">
+                                <con:request>request-N3f57f16c.N7f95e6c8.0.154f36d5e65.N7ff1</con:request>
+                                <con:response>response-N3f57f16c.N7f95e6c8.0.154f36d5e65.N7ff0</con:response>
+                            </con:pipeline-node>
+                        </con:flow>
+                    </con:branch>
+                    <con:default-branch>
+                        <con:flow/>
+                    </con:default-branch>
+                </con:branch-table>
+            </con:branch-node>
+        </con:flow>
+    </con:router>
+</con:pipelineEntry>
