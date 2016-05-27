@@ -1,0 +1,42 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="GetMediator"
+     targetNamespace="http://xmlns.oracle.com/Bpel/MediatorFinal/GetMediator"
+     xmlns:tns="http://xmlns.oracle.com/Bpel/MediatorFinal/GetMediator"
+     xmlns:inp1="http://erp.oracle.cenam"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+    <wsdl:types>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://erp.oracle.cenam" schemaLocation="../Schemas/weather_schema.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="WeatherRequestMessage">
+        <wsdl:part name="request" element="inp1:GetWeatherRequest"/>
+    </wsdl:message>
+    <wsdl:message name="WeatherCallbackMessage">
+        <wsdl:part name="callback" element="inp1:GetWeatherResponse"/>
+    </wsdl:message>
+    <wsdl:message name="CitiesRequestMessage">
+        <wsdl:part name="request" element="inp1:GetCitiesRequest"/>
+    </wsdl:message>
+    <wsdl:message name="CitiesCallbackMessage">
+        <wsdl:part name="callback" element="inp1:GetCitiesResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="GeoExecute_ptt">
+        <wsdl:operation name="GetWeather">
+            <wsdl:input message="tns:WeatherRequestMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="GetCities">
+            <wsdl:input message="tns:CitiesRequestMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:portType name="GeoCallback_ptt">
+        <wsdl:operation name="GetWeatherCallback">
+            <wsdl:input message="tns:WeatherCallbackMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="GetCitiesCallback">
+            <wsdl:input message="tns:CitiesCallbackMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

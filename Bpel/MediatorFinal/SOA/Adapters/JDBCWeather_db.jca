@@ -1,0 +1,15 @@
+<adapter-config name="JDBCWeather" adapter="db" wsdlLocation="../WSDLs/JDBCWeather.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="derbyBD" location="eis/jdbc/dervyBD"/>
+  <endpoint-interaction portType="JDBCWeather_ptt" operation="persistirOperacion">
+    <interaction-spec className="oracle.tip.adapter.db.DBWriteInteractionSpec">
+      <property name="DescriptorName" value="JDBCWeather.Weather"/>
+      <property name="DmlType" value="merge"/>
+      <property name="MappingsMetaDataURL" value="JDBCWeather-or-mappings.xml"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+      <property name="OptimizeMerge" value="true"/>
+      <property name="DetectOmissions" value="true"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

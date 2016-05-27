@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+            xmlns:tns="http://erp.oracle.cenam"
+            targetNamespace="http://erp.oracle.cenam" 
+            elementFormDefault="qualified">
+ 
+  <xsd:complexType name="weather">
+    <xsd:sequence>
+      <xsd:element name="pais" minOccurs="0" type="xsd:string" />
+      <xsd:element name="ciudad" minOccurs="0" type="xsd:string" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="weatherResponse">
+    <xsd:sequence>
+      <xsd:element name="weatherResponse" type="xsd:string" minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  
+  <xsd:complexType name="getCities">
+    <xsd:sequence>
+      <xsd:element name="pais" minOccurs="0" type="xsd:string" />
+    </xsd:sequence>
+  </xsd:complexType>
+  
+   <xsd:complexType name="getCitiesResponse">
+    <xsd:sequence>
+      <xsd:element name="getCitiesResponse" minOccurs="0" type="xsd:string" />
+    </xsd:sequence>
+  </xsd:complexType>
+  
+   <xsd:complexType name="persistirOperacionRequest">
+    <xsd:sequence>
+      <xsd:element name="operacion" minOccurs="0" type="xsd:string" />
+      <xsd:element name="response" minOccurs="0" type="xsd:string" />
+    </xsd:sequence>
+  </xsd:complexType>
+  
+  <xsd:complexType name="persistirOperacionResponse">
+    <xsd:sequence>
+      <xsd:element name="operacion" minOccurs="0" type="xsd:string" />
+      <xsd:element name="response" minOccurs="0" type="xsd:string" />
+    </xsd:sequence>
+  </xsd:complexType>
+  
+  <xsd:element name="GetWeatherRequest" type="tns:weather" />
+  <xsd:element name="GetWeatherResponse" type="tns:weatherResponse" />
+  <xsd:element name="GetCitiesRequest" type="tns:getCities" />
+  <xsd:element name="GetCitiesResponse" type="tns:getCitiesResponse" />
+  <xsd:element name="SetPersistirOperacion" type="tns:persistirOperacionRequest" />
+  <xsd:element name="GetPersistirOperacion" type="tns:persistirOperacionResponse" />
+</xsd:schema>

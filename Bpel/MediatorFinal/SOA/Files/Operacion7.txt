@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?><Operaciones xmlns="http://erp.oracle.cenam"><Operacion><metodo>WeatherBPEL - GetWeather</metodo><fecha>2016-05-26</fecha><response>&lt;?xml version="1.0" encoding="utf-16"?>
+&lt;CurrentWeather>
+  &lt;Location>Mexico City / Licenci, Mexico (MMMX) 19-26N 099-06W&lt;/Location>
+  &lt;Time>May 26, 2016 - 11:20 AM EDT / 2016.05.26 1520 UTC&lt;/Time>
+  &lt;Wind> from the ENE (060 degrees) at 6 MPH (5 KT):0&lt;/Wind>
+  &lt;Visibility> 5 mile(s):0&lt;/Visibility>
+  &lt;SkyConditions> partly cloudy&lt;/SkyConditions>
+  &lt;Temperature> 69 F (21 C)&lt;/Temperature>
+  &lt;DewPoint> 50 F (10 C)&lt;/DewPoint>
+  &lt;RelativeHumidity> 49%&lt;/RelativeHumidity>
+  &lt;Pressure> 30.39 in. Hg (1029 hPa)&lt;/Pressure>
+  &lt;Status>Success&lt;/Status>
+&lt;/CurrentWeather></response></Operacion></Operaciones>

@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8" ?><Operaciones xmlns="http://erp.oracle.cenam"><Operacion><metodo>CitiesBPEL - GetCities</metodo><fecha>2016-05-26</fecha><response>&lt;NewDataSet>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>Acapulco / G. Alvarez&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>Aerop. Internacional Monterrey, N. L.&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>Aguascalientes, Ags.&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>Bahias De Huatulco&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>Cuernavaca, Mor.&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>Ciudad Del Carmen&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>Culiacan, Sin.&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>Chetumal, Q. Roo&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>Santa Rosalia, B. C. S.&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>Campeche, Camp.&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>Ciudad Juarez International&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>Chihuahua International Airport&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>Ciudad Victoria Airport&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>Cozumel Civ / Mil&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>Durango Airport&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>Tepic, Nay.&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>Don Miguel / Guadalaj&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>Guaymas International Airport&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>Hermosillo, Son.&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>Colima&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>Saltillo, Coah.&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>Los Mochis Airport&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>Del Bajio / Leon&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>La Paz International Airport&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>Loreto, B. C. S.&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>Matamoros International&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>Aerop. Internacional Merida, Yuc&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>Mexicali International Airport&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>Morelia New&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>Minatitlan&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>Monclova, Coah.&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>Mexico City / Licenci&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>Monterrey / Gen Maria&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>Mazatlan / G. Buelna&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>Nuevo Laredo International&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>Oaxaca / Xoxocotlan&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>Puebla, Pue.&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>Piedras Negras, Coah.&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>Uruapan / Gen Rayon&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>Puerto Vallarta / Lic&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>Puerto Escondido&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>Queretaro, Qro.&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>Reynosa International Airport&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>San Jose Del Cabo&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>San Luis Potosi, S. L. P.&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>Torreon, Coah.&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>Tuxtla Gutierrez, Chis.&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>Tijuana International Airport&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>Tulancingo&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>Tampico / Gen Fj Mina&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>Toluca / Jose Maria&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>Tapachula&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>Cancun International Airport&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>Villahermosa&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>Gen. Heriberto Jara&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>Zacatecas Airport&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>Ixtapa-Zihuatanejo&lt;/City>
+  &lt;/Table>
+  &lt;Table>
+    &lt;Country>Mexico&lt;/Country>
+    &lt;City>Manzanillo International&lt;/City>
+  &lt;/Table>
+&lt;/NewDataSet></response></Operacion></Operaciones>

@@ -1,0 +1,107 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Fri May 20 17:22:37 CDT 2016
+  Author:  NeryS
+  Type: BPEL 2.0 Process
+  Purpose: Asynchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="CitiesBPEL"
+         targetNamespace="http://erp.oracle.cenam/Bpel/MediatorFinal/CitiesBPEL"
+         xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:client="http://erp.oracle.cenam/Bpel/MediatorFinal/CitiesBPEL"
+         xmlns:ora="http://schemas.oracle.com/xpath/extension"
+         xmlns:ui="http://xmlns.oracle.com/soa/designer"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:ns1="http://www.webserviceX.NET"
+         xmlns:ns2="http://erp.oracle.cenam"
+         xmlns:ns3="http://erp.oracle.cenam/Bpel/MediatorFinal/PersistirOperacionBPEL"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions" xmlns:ess="http://xmlns.oracle.com/scheduler"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap">
+
+    <import ui:processWSDL="true" namespace="http://erp.oracle.cenam/Bpel/MediatorFinal/CitiesBPEL" location="../WSDLs/CitiesBPEL.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    --> 
+    <partnerLinks>
+        <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+        <partnerLink name="citiesl_client" partnerLinkType="client:CitiesBPEL" myRole="CitiesBPELProvider" partnerRole="CitiesBPELRequester"/>
+        <partnerLink name="SOAPReference" partnerLinkType="ns1:SOAPReference" partnerRole="GlobalWeatherSoap"/>
+        <partnerLink name="PersistirOperacionBPEL.persistiroperacion_client"
+                     partnerLinkType="ns3:PersistirOperacionBPEL" partnerRole="PersistirOperacionBPELProvider"/>
+    </partnerLinks>
+
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        VARIABLES                                                        
+        List of messages and XML documents used within this BPEL process 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+    <variables>
+        <!-- Reference to the message passed as input during initiation -->
+        <variable name="inputVariable" messageType="client:CitiesBPELRequestMessage"/>
+
+        <!-- Reference to the message that will be sent back to the requester during callback -->
+        <variable name="outputVariable" messageType="client:CitiesBPELResponseMessage"/>
+        <variable name="InvokeGetCitiesByCountry_InputVariable" messageType="ns1:GetCitiesByCountrySoapIn"/>
+        <variable name="InvokeGetCitiesByCountry_OutputVariable" messageType="ns1:GetCitiesByCountrySoapOut"/>
+        <variable name="PersistenciaInputVariable" messageType="ns3:PersistirOperacionBPELRequestMessage"/>
+    </variables>
+
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+       ORCHESTRATION LOGIC                                               
+       Set of activities coordinating the flow of messages across the    
+       services integrated within this business process                  
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+    <sequence name="main">
+        <!-- Receive input from requestor. (Note: This maps to operation defined in CitiesBPEL.wsdl) -->
+        <receive name="receiveInput" partnerLink="citiesl_client" portType="client:CitiesBPEL" operation="GetCities" variable="inputVariable" createInstance="yes"/>
+        <assign name="Entrada">
+            <copy>
+                <from>$inputVariable.payload/ns2:pais</from>
+                <to>$InvokeGetCitiesByCountry_InputVariable.parameters/ns1:CountryName</to>
+            </copy>
+        </assign>
+        <invoke name="GetCities" bpelx:invokeAsDetail="no" partnerLink="SOAPReference"
+                portType="ns1:GlobalWeatherSoap" operation="GetCitiesByCountry"
+                inputVariable="InvokeGetCitiesByCountry_InputVariable"
+                outputVariable="InvokeGetCitiesByCountry_OutputVariable"/>
+        <assign name="PersistirDatos">
+            <copy>
+                <from>$InvokeGetCitiesByCountry_OutputVariable.parameters/ns1:GetCitiesByCountryResult</from>
+                <to>$PersistenciaInputVariable.payload/ns2:response</to>
+            </copy>
+            <copy>
+                <from>concat(ora:getComponentName()," - GetCities")</from>
+                <to>$PersistenciaInputVariable.payload/ns2:operacion</to>
+            </copy>
+        </assign>
+        <invoke name="InvokeServicePersistencia"
+                partnerLink="PersistirOperacionBPEL.persistiroperacion_client" portType="ns3:PersistirOperacionBPEL"
+                operation="process" inputVariable="PersistenciaInputVariable" bpelx:invokeAsDetail="no"/>
+        <!-- 
+          Asynchronous callback to the requester. (Note: the callback location and correlation id is transparently handled using WS-addressing.)
+        -->
+        <invoke name="callbackClient" partnerLink="citiesl_client" portType="client:CitiesBPELCallback" operation="GetCitiesResponse" inputVariable="outputVariable"/>
+    </sequence>
+</process>
