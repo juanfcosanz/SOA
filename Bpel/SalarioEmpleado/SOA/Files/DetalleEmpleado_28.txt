@@ -1,1 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?><Empleados xmlns="http://erp_oracle.cenam"><Empleado><noEmpleado>JFSH211090</noEmpleado><salarioTotal>2439.5</salarioTotal><impuestoTotal>850.5699999999999</impuestoTotal><deduccionTotal>8.3</deduccionTotal><pagoTotal>1597.23</pagoTotal></Empleado></Empleados>
