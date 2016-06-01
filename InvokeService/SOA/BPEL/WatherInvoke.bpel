@@ -1,0 +1,141 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Thu May 19 17:50:37 CDT 2016
+  Author:  NeryS
+  Type: BPEL 2.0 Process
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="WatherInvoke"
+               targetNamespace="http://erp.oracle.cenam/WelcomeApplication/InvokeService/WatherInvoke"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://erp.oracle.cenam/WelcomeApplication/InvokeService/WatherInvoke"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:ui="http://xmlns.oracle.com/soa/designer"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:ns1="http://www.webserviceX.NET"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions" xmlns:ess="http://xmlns.oracle.com/scheduler"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap">
+
+    <import ui:processWSDL="true" namespace="http://erp.oracle.cenam/WelcomeApplication/InvokeService/WatherInvoke" location="../WSDLs/WatherInvoke.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    --> 
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="watherinvoke" partnerLinkType="client:WatherInvoke" myRole="WatherInvokeProvider"/>
+    <partnerLink name="SOAPReference" partnerLinkType="ns1:SOAPReference" partnerRole="GlobalWeatherSoap"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:WatherInvokeRequestMessage"/>
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="outputVariable" messageType="client:WatherInvokeResponseMessage"/>
+    <variable name="InvokeGetCitiesByCountry_InputVariable" messageType="ns1:GetCitiesByCountrySoapIn"/>
+    <variable name="InvokeGetCitiesByCountry_OutputVariable" messageType="ns1:GetCitiesByCountrySoapOut"/>
+    <variable name="InvokeGetWeather_InputVariable" messageType="ns1:GetWeatherSoapIn"/>
+    <variable name="InvokeGetWeather_OutputVariable" messageType="ns1:GetWeatherSoapOut"/>
+  </variables>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in WatherInvoke.wsdl) -->
+    <receive name="receiveInput" partnerLink="watherinvoke" portType="client:WatherInvoke" operation="process" variable="inputVariable" createInstance="yes"/>
+    <if name="If1">
+      <documentation>
+        <![CDATA[GetCountry]]>
+      </documentation>
+      <condition>$inputVariable.payload/client:operacion = "Country"</condition>
+      <sequence name="Sequence2">
+        <assign name="Pais">
+          <copy>
+            <from>$inputVariable.payload/client:pais</from>
+            <to>$InvokeGetCitiesByCountry_InputVariable.parameters/ns1:CountryName</to>
+          </copy>
+        </assign>
+        <invoke name="GetCountry" bpelx:invokeAsDetail="no" partnerLink="SOAPReference" portType="ns1:GlobalWeatherSoap"
+                operation="GetCitiesByCountry" inputVariable="InvokeGetCitiesByCountry_InputVariable"
+                outputVariable="InvokeGetCitiesByCountry_OutputVariable"/>
+        <assign name="Assign5">
+          <copy>
+            <from>$InvokeGetCitiesByCountry_OutputVariable.parameters/ns1:GetCitiesByCountryResult</from>
+            <to>$outputVariable.payload/client:result</to>
+          </copy>
+        </assign>
+      </sequence>
+      <elseif>
+        <documentation>
+          <![CDATA[GetWeather]]>
+        </documentation>
+        <condition>$inputVariable.payload/client:operacion = "Weather"</condition>
+        <sequence name="Sequence1">
+          <assign name="Pais_Ciudad">
+            <copy>
+              <from>$inputVariable.payload/client:pais</from>
+              <to>$InvokeGetWeather_InputVariable.parameters/ns1:CountryName</to>
+            </copy>
+            <copy>
+              <from>$inputVariable.payload/client:ciudad</from>
+              <to>$InvokeGetWeather_InputVariable.parameters/ns1:CityName</to>
+            </copy>
+          </assign>
+          <invoke name="GetWeather" bpelx:invokeAsDetail="no" partnerLink="SOAPReference" portType="ns1:GlobalWeatherSoap"
+                  operation="GetWeather" inputVariable="InvokeGetWeather_InputVariable"
+                  outputVariable="InvokeGetWeather_OutputVariable"/>
+          <assign name="Assign2">
+            <copy>
+              <from>$InvokeGetWeather_OutputVariable.parameters/ns1:GetWeatherResult</from>
+              <to>$outputVariable.payload/client:result</to>
+            </copy>
+          </assign>
+        </sequence>
+      </elseif>
+      <else>
+        <documentation>
+          <![CDATA[Fail]]>
+        </documentation>
+        <assign name="Assign1">
+          <copy>
+            <from>"Operacion Inválida"</from>
+            <to>$outputVariable.payload/client:result</to>
+          </copy>
+        </assign>
+      </else>
+    </if>
+    <!-- Generate reply to synchronous request -->
+    <reply name="replyOutput" partnerLink="watherinvoke" portType="client:WatherInvoke" operation="process" variable="outputVariable"/>
+  </sequence>
+</process>
