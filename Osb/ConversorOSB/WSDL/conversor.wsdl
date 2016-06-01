@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<definitions targetNamespace="http://erp.oracle.cenam/customizarService" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://erp.oracle.cenam/customizarService"
+             xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+             xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:cn0="http://erp.oracle.cenam/conversor">
+  <types>
+    <s:schema targetNamespace="http://erp.oracle.cenam/customizarService" elementFormDefault="qualified">
+        <s:import namespace="http://erp.oracle.cenam/conversor" schemaLocation="../XSD/grados_schema.xsd"/>
+    </s:schema>
+  </types>
+  <message name="OpCaFIn">
+    <part name="parameters" element="cn0:OpCaFRequest"/>
+  </message>
+  <message name="OpCaFOut">
+    <part name="parameters" element="cn0:OpCaFResponse"/>
+  </message>
+  <message name="OpFaCIn">
+    <part name="parameters" element="cn0:OpFaCRequest"/>
+  </message>
+  <message name="OpFaCOut">
+    <part name="parameters" element="cn0:OpFaCResponse"/>
+  </message>
+  <portType name="GlobalOperations">
+    <operation name="OpCaF">
+      <input message="tns:OpCaFIn"/>
+      <output message="tns:OpCaFOut"/>
+    </operation>
+    <operation name="OpFaC">
+      <input message="tns:OpFaCIn"/>
+      <output message="tns:OpFaCOut"/>
+    </operation>
+  </portType>
+  <binding name="GlobalOperationsSOAP12Binding" type="tns:GlobalOperations">
+    <soap12:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="OpCaF">
+      <soap12:operation style="document" soapAction="http://erp.oracle.cenam/customizarService/OpCaF"/>
+      <input>
+        <soap12:body use="literal" parts="parameters"/>
+      </input>
+      <output>
+        <soap12:body use="literal" parts="parameters"/>
+      </output>
+    </operation>
+    <operation name="OpFaC">
+      <soap12:operation style="document" soapAction="http://erp.oracle.cenam/customizarService/OpFaC"/>
+      <input>
+        <soap12:body use="literal" parts="parameters"/>
+      </input>
+      <output>
+        <soap12:body use="literal" parts="parameters"/>
+      </output>
+    </operation>
+  </binding>
+  <service name="MiServic">
+    <port name="GlobalOperationsPort" binding="tns:GlobalOperationsSOAP12Binding">
+      <soap12:address location="http://www.example.com"/>
+    </port>
+  </service>
+</definitions>

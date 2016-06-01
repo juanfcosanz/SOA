@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:pipelineEntry xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config">
+    <con:coreEntry>
+        <con:binding type="SOAP" isSoap12="true" xsi:type="con:SoapBindingType">
+            <con:wsdl ref="ConversorOSB/WSDL/conversor"/>
+            <con:binding>
+                <con:name>GlobalOperationsSOAP12Binding</con:name>
+                <con:namespace>http://erp.oracle.cenam/customizarService</con:namespace>
+            </con:binding>
+        </con:binding>
+        <con:xqConfiguration>
+            <con:snippetVersion>1.0</con:snippetVersion>
+        </con:xqConfiguration>
+    </con:coreEntry>
+    <con:router>
+        <con:pipeline type="request" name="request-N3f57f154.72387ea2.0.1550796ba67.N7ea3">
+            <con:stage id="_StageId-N3f57f154.72387ea2.0.1550796ba67.N7ea1" name="RequestCaF">
+                <con:context>
+                    <con2:userNsDecl prefix="con" namespace="http://erp.oracle.cenam/conversor"/>
+                </con:context>
+                <con:actions>
+                    <con1:assign varName="CaFRq">
+                        <con2:id>_ActionId-N3f57f154.72387ea2.0.1550796ba67.N7e9a</con2:id>
+                        <con1:expr>
+                            <con2:xqueryText>&lt;web:CaF xmlns:web="http://elGuille/WebServices">
+         &lt;web:valor>{$body/con:OpCaFRequest/con:ValorC/text()}&lt;/web:valor>
+      &lt;/web:CaF></con2:xqueryText>
+                        </con1:expr>
+                    </con1:assign>
+                    <con1:wsCallout>
+                        <con2:id>_ActionId-N3f57f154.72387ea2.0.1550796ba67.N7e9d</con2:id>
+                        <con1:service ref="ConversorOSB/BussinessService/ConversorServiceNetBusinessService" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                        <con1:operation>CaF</con1:operation>
+                        <con1:request>
+                            <con1:body wrapped="false">CaFRq</con1:body>
+                        </con1:request>
+                        <con1:response>
+                            <con1:body wrapped="false">CaFRs</con1:body>
+                        </con1:response>
+                        <con1:requestTransform/>
+                        <con1:responseTransform/>
+                    </con1:wsCallout>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:pipeline type="response" name="response-N3f57f154.72387ea2.0.1550796ba67.N7ea2">
+            <con:stage id="_StageId-N3f57f154.72387ea2.0.1550796ba67.N7ea0" name="ResponseCaF">
+                <con:context>
+                    <con2:userNsDecl prefix="con" namespace="http://erp.oracle.cenam/conversor"/>
+                    <con2:userNsDecl prefix="web" namespace="http://elGuille/WebServices"/>
+                </con:context>
+                <con:actions>
+                    <con1:replace varName="body" contents-only="true">
+                        <con2:id>_ActionId-N3f57f154.72387ea2.0.1550796ba67.N7e97</con2:id>
+                        <con1:expr>
+                            <con2:xqueryText><![CDATA[<con:OpCaFResponse xmlns="http://elGuille/WebServices">
+	<!--Optional:-->
+	<con:ValorF>{$CaFRs/web:CaFResult/text()}</con:ValorF>
+	<!--Optional:-->
+	<con:Fecha>{fn:current-date()}</con:Fecha>
+</con:OpCaFResponse>]]></con2:xqueryText>
+                        </con1:expr>
+                    </con1:replace>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:pipeline type="request" name="request-N3f57f154.72387ea2.0.1550796ba67.N7e96">
+            <con:stage id="_StageId-N3f57f154.72387ea2.0.1550796ba67.N7e94" name="RequestFaC">
+                <con:context>
+                    <con2:userNsDecl prefix="con" namespace="http://erp.oracle.cenam/conversor"/>
+                </con:context>
+                <con:actions>
+                    <con1:assign varName="FaCRq">
+                        <con2:id>_ActionId-N3f57f154.72387ea2.0.1550796ba67.N7e8d</con2:id>
+                        <con1:expr>
+                            <con2:xqueryText>&lt;web:FaC xmlns:web="http://elGuille/WebServices">
+         &lt;web:valor>{$body/con:OpFaCRequest/con:ValorF/text()}&lt;/web:valor>
+&lt;/web:FaC></con2:xqueryText>
+                        </con1:expr>
+                    </con1:assign>
+                    <con1:wsCallout>
+                        <con2:id>_ActionId-N3f57f154.72387ea2.0.1550796ba67.N7e90</con2:id>
+                        <con1:service ref="ConversorOSB/BussinessService/ConversorServiceNetBusinessService" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                        <con1:operation>FaC</con1:operation>
+                        <con1:request>
+                            <con1:body wrapped="false">FaCRq</con1:body>
+                        </con1:request>
+                        <con1:response>
+                            <con1:body wrapped="false">FaCRs</con1:body>
+                        </con1:response>
+                        <con1:requestTransform/>
+                        <con1:responseTransform/>
+                    </con1:wsCallout>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:pipeline type="response" name="response-N3f57f154.72387ea2.0.1550796ba67.N7e95">
+            <con:stage id="_StageId-N3f57f154.72387ea2.0.1550796ba67.N7e93" name="ResponseFaC">
+                <con:context>
+                    <con2:userNsDecl prefix="con" namespace="http://erp.oracle.cenam/conversor"/>
+                    <con2:userNsDecl prefix="web" namespace="http://elGuille/WebServices"/>
+                </con:context>
+                <con:actions>
+                    <con1:replace varName="body" contents-only="true">
+                        <con2:id>_ActionId-N3f57f154.72387ea2.0.1550796ba67.N7e8a</con2:id>
+                        <con1:expr>
+                            <con2:xqueryText><![CDATA[<con:OpFaCRequest>
+    <con:ValorC>{$FaCRs/web:FaCResult/text()}</con:ValorC>
+    <con:Fecha>{fn:current-date()}</con:Fecha>
+</con:OpFaCRequest>]]></con2:xqueryText>
+                        </con1:expr>
+                    </con1:replace>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:flow>
+            <con:branch-node type="operation" id="_FlowId-N3f57f154.72387ea2.0.1550796ba67.N7ea4" name="BranchNode1">
+                <con:context/>
+                <con:branch-table>
+                    <con:branch name="OpCaF">
+                        <con:operator>equals</con:operator>
+                        <con:value/>
+                        <con:flow>
+                            <con:pipeline-node name="PipelinePairNodeCaF">
+                                <con:request>request-N3f57f154.72387ea2.0.1550796ba67.N7ea3</con:request>
+                                <con:response>response-N3f57f154.72387ea2.0.1550796ba67.N7ea2</con:response>
+                            </con:pipeline-node>
+                        </con:flow>
+                    </con:branch>
+                    <con:branch name="OpFaC">
+                        <con:operator>equals</con:operator>
+                        <con:value/>
+                        <con:flow>
+                            <con:pipeline-node name="PipelinePairNodeFaC">
+                                <con:request>request-N3f57f154.72387ea2.0.1550796ba67.N7e96</con:request>
+                                <con:response>response-N3f57f154.72387ea2.0.1550796ba67.N7e95</con:response>
+                            </con:pipeline-node>
+                        </con:flow>
+                    </con:branch>
+                    <con:default-branch>
+                        <con:flow/>
+                    </con:default-branch>
+                </con:branch-table>
+            </con:branch-node>
+        </con:flow>
+    </con:router>
+</con:pipelineEntry>
