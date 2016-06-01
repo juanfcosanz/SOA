@@ -1,0 +1,110 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Wed May 18 16:31:43 CDT 2016
+  Author:  NeryS
+  Type: BPEL 2.0 Process
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="HolaBPEL"
+               targetNamespace="http://erp.oracle.cenam/WelcomeProject/HolaBPEL"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://erp.oracle.cenam/WelcomeProject/HolaBPEL"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:ui="http://xmlns.oracle.com/soa/designer"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions" xmlns:ess="http://xmlns.oracle.com/scheduler"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap">
+
+    <import ui:processWSDL="true" namespace="http://erp.oracle.cenam/WelcomeProject/HolaBPEL" location="../WSDLs/HolaBPEL.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    --> 
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="holabpel_client" partnerLinkType="client:HolaBPEL" myRole="HolaBPELProvider"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:HolaBPELRequestMessage"/>
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="outputVariable" messageType="client:HolaBPELResponseMessage"/>
+  </variables>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in HolaBPEL.wsdl) -->
+    <receive name="receiveInput" partnerLink="holabpel_client" portType="client:HolaBPEL" operation="process" variable="inputVariable" createInstance="yes"/>
+    <if name="If_persona">
+      <documentation>
+        <![CDATA[Luis]]>
+      </documentation>
+      <condition>$inputVariable.payload/client:input  = "Luis"</condition>
+      <assign name="Assign2">
+        <copy>
+          <from>concat(xp20:current-date()," -  Mi nombre es   ",$inputVariable.payload/client:input, "NO SOY LORENA" )</from>
+          <to>$outputVariable.payload/client:result</to>
+        </copy>
+      </assign>
+      <elseif>
+        <documentation>
+          <![CDATA[Lorena]]>
+        </documentation>
+        <condition>$inputVariable.payload/client:input  = "Lorena"</condition>
+        <assign name="Assign4">
+          <copy>
+            <from>concat(xp20:current-date()," -  Mi nombre es   ",$inputVariable.payload/client:input, "NO SOY LUIS" )</from>
+            <to>$outputVariable.payload/client:result</to>
+          </copy>
+        </assign>
+      </elseif>
+      <else>
+        <documentation>
+          <![CDATA[En otros casos]]>
+        </documentation>
+        <assign name="Assign3">
+          <copy>
+            <from>concat(xp20:current-date()," -  Mi nombre es   ",$inputVariable.payload/client:input, "NO SOY LORENA, NI LUIS" )</from>
+            <to>$outputVariable.payload/client:result</to>
+          </copy>
+        </assign>
+      </else>
+    </if>
+    <!-- Generate reply to synchronous request -->
+    <reply name="replyOutput" partnerLink="holabpel_client" portType="client:HolaBPEL" operation="process" variable="outputVariable"/>
+  </sequence>
+</process>
