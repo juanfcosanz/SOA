@@ -1,0 +1,134 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Thu May 19 10:27:55 CDT 2016
+  Author:  NeryS
+  Type: BPEL 2.0 Process
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="CalculadoraBPEL"
+               targetNamespace="http://erp.oracle.cenam/WelcomeApplication/Calculadora/CalculadoraBPEL"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://erp.oracle.cenam/WelcomeApplication/Calculadora/CalculadoraBPEL"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:ui="http://xmlns.oracle.com/soa/designer"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions" xmlns:ess="http://xmlns.oracle.com/scheduler"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap">
+
+    <import ui:processWSDL="true" namespace="http://erp.oracle.cenam/WelcomeApplication/Calculadora/CalculadoraBPEL" location="../WSDLs/CalculadoraBPEL.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    --> 
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="calculadorabpel" partnerLinkType="client:CalculadoraBPEL" myRole="CalculadoraBPELProvider"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:CalculadoraBPELRequestMessage"/>
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="outputVariable" messageType="client:CalculadoraBPELResponseMessage"/>
+  </variables>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in CalculadoraBPEL.wsdl) -->
+    <receive name="receiveInput" partnerLink="calculadorabpel" portType="client:CalculadoraBPEL" operation="process" variable="inputVariable" createInstance="yes"/>
+    <if name="If1_operacion">
+      <documentation>
+        <![CDATA[Suma]]>
+      </documentation>
+      <condition>$inputVariable.payload/client:operacion = "+"</condition>
+      <assign name="Add">
+        <copy>
+          <from>$inputVariable.payload/client:val1 + $inputVariable.payload/client:val2</from>
+          <to>$outputVariable.payload/client:result</to>
+        </copy>
+      </assign>
+      <elseif>
+        <documentation>
+          <![CDATA[Resta]]>
+        </documentation>
+        <condition>$inputVariable.payload/client:operacion = "-"</condition>
+        <assign name="Less">
+          <copy>
+            <from>$inputVariable.payload/client:val1 - $inputVariable.payload/client:val2</from>
+            <to>$outputVariable.payload/client:result</to>
+          </copy>
+        </assign>
+      </elseif>
+      <elseif>
+        <documentation>
+          <![CDATA[Multiplicacion]]>
+        </documentation>
+        <condition>$inputVariable.payload/client:operacion = "*"</condition>
+        <assign name="Multiply">
+          <copy>
+            <from>$inputVariable.payload/client:val1 * $inputVariable.payload/client:val2</from>
+            <to>$outputVariable.payload/client:result</to>
+          </copy>
+        </assign>
+      </elseif>
+      <elseif>
+        <documentation>
+          <![CDATA[Division]]>
+        </documentation>
+        <condition>$inputVariable.payload/client:operacion = "/"</condition>
+        <assign name="Divise">
+          <copy>
+            <from>$inputVariable.payload/client:val1 div $inputVariable.payload/client:val2</from>
+            <to>$outputVariable.payload/client:result</to>
+          </copy>
+        </assign>
+      </elseif>
+      <else>
+        <documentation>
+          <![CDATA[Otro]]>
+        </documentation>
+        <assign name="Other">
+          <copy>
+            <from>500</from>
+            <to>$outputVariable.payload/client:result</to>
+          </copy>
+        </assign>
+      </else>
+    </if>
+    <!-- Generate reply to synchronous request -->
+    <reply name="replyOutput" partnerLink="calculadorabpel" portType="client:CalculadoraBPEL" operation="process" variable="outputVariable"/>
+  </sequence>
+</process>

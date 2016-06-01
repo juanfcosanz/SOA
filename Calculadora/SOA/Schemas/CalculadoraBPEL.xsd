@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<schema attributeFormDefault="unqualified"
+	elementFormDefault="qualified"
+	targetNamespace="http://erp.oracle.cenam/WelcomeApplication/Calculadora/CalculadoraBPEL"
+	xmlns="http://www.w3.org/2001/XMLSchema">
+	<element name="process">
+		<complexType>
+			<sequence>
+				<element name="operacion" type="string"/>
+                                <element name="val1" type="int"/>
+                                <element name="val2" type="int"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="processResponse">
+		<complexType>
+			<sequence>
+				<element name="result" type="int"/>
+			</sequence>
+		</complexType>
+	</element>
+</schema>
