@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<definitions xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:wsp1_2="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:tns="http://webservicecomputadora/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://webservicecomputadora/" name="ComputadoraService">
+  <types>
+    <xsd:schema>
+      <xsd:import namespace="http://webservicecomputadora/" schemaLocation="Computadora.xsd"/>
+    </xsd:schema>
+  </types>
+  <message name="computadora">
+    <part name="parameters" element="tns:computadora"/>
+  </message>
+  <message name="computadoraResponse">
+    <part name="parameters" element="tns:computadoraResponse"/>
+  </message>
+  <portType name="Computadora">
+    <operation name="descripcionEquipo">
+      <input message="tns:computadora" wsam:Action="http://webservicecomputadora/Computadora/computadoraRequest"/>
+      <output message="tns:computadoraResponse"
+              wsam:Action="http://webservicecomputadora/Computadora/computadoraResponse"/>
+    </operation>
+  </portType>
+  <binding name="TestPortBinding" type="tns:Computadora">
+    <soap12:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="descripcionEquipo">
+      <soap12:operation soapAction="" soapActionRequired="false"/>
+      <input>
+        <soap12:body use="literal"/>
+      </input>
+      <output>
+        <soap12:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+  <service name="ComputadoraService">
+    <port name="ComputadoraPort" binding="tns:TestPortBinding">
+      <soap12:address location="http://localhost:7101/Application1-Computadora-context-root/ComputadoraImplService"/>
+    </port>
+  </service>
+</definitions>
