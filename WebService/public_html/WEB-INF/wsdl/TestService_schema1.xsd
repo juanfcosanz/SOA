@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<xsd:schema xmlns:ns0="http://webservice/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://webservice/">
+  <xsd:complexType name="saludoResponse">
+    <xsd:sequence>
+      <xsd:element name="return" type="xsd:string" minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="saludo">
+    <xsd:sequence>
+      <xsd:element name="nombre" type="xsd:string" minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="saludoResponse" type="ns0:saludoResponse"/>
+  <xsd:element name="saludo" type="ns0:saludo"/>
+</xsd:schema>
