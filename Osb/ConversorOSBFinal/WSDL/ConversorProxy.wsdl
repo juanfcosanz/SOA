@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<definitions targetNamespace="http://erp.oracle.cenam/OSB/ConversorOSBFinal" xmlns="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:tns="http://erp.oracle.cenam/OSB/ConversorOSBFinal" xmlns:cn0="http://erp.oracl.cenam"
+             xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+    <types>
+        <xsd:schema targetNamespace="http://erp.oracle.cenam/OSB/ConversorOSBFinal/types"
+                    elementFormDefault="qualified">
+            <xsd:import namespace="http://erp.oracl.cenam" schemaLocation="../XSD/conversor_schema.xsd"/>
+        </xsd:schema>
+    </types>
+    <message name="CaFIn">
+        <part name="parameters" element="cn0:CaFRequest"/>
+    </message>
+    <message name="CaFOut">
+        <part name="parameters" element="cn0:CaFResponse"/>
+    </message>
+    <message name="FaCIn">
+        <part name="parameters" element="cn0:FaCRequest"/>
+    </message>
+    <message name="FaCOut">
+        <part name="parameters" element="cn0:FaCResponse"/>
+    </message>
+    <portType name="GlobalOperaciones">
+        <operation name="GetCaF">
+            <input message="tns:CaFIn"/>
+            <output message="tns:CaFOut"/>
+        </operation>
+        <operation name="GetFaC">
+            <input message="tns:FaCIn"/>
+            <output message="tns:FaCOut"/>
+        </operation>
+    </portType>
+    <binding name="GlobalOperacionesSOAP" type="tns:GlobalOperaciones">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="GetCaF">
+            <soap:operation style="document" soapAction="http://erp.oracle.cenam/OSB/ConversorOSBFinal/GetCaF"/>
+            <input>
+                <soap:body use="literal" parts="parameters"/>
+            </input>
+            <output>
+                <soap:body use="literal" parts="parameters"/>
+            </output>
+        </operation>
+        <operation name="GetFaC">
+            <soap:operation style="document" soapAction="http://erp.oracle.cenam/OSB/ConversorOSBFinal/GetFaC"/>
+            <input>
+                <soap:body use="literal" parts="parameters"/>
+            </input>
+            <output>
+                <soap:body use="literal" parts="parameters"/>
+            </output>
+        </operation>
+    </binding>
+    <service name="MyServiceOSB">
+        <port name="GlobalOperacionesPort" binding="tns:GlobalOperacionesSOAP">
+            <soap:address location="http://localhost:7101/OSB/ConversorOSBFinal/"/>
+        </port>
+    </service>
+</definitions>
