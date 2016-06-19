@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions
+     name="BPEL_SYNC_Ej01_01"
+     targetNamespace="http://xmlns.oracle.com/AppFastTrackSOA_01/PrjSOAEj01_01/BPEL_SYNC_Ej01_01"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:client="http://xmlns.oracle.com/AppFastTrackSOA_01/PrjSOAEj01_01/BPEL_SYNC_Ej01_01"
+     xmlns:ns1="http://www.erpsol.com.mx/soa/fasttrack"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+     xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    >
+    <wsdl:documentation>
+        <abstractWSDL>http://EAAR-G750JX-OL.localdomain:7004/soa-infra/services/ERPSOL01/PrjSOAEj01_01!1.0/WSDLs/BPEL_SYNC_Ej01_01.wsdl</abstractWSDL>
+    </wsdl:documentation>
+    <plnk:partnerLinkType name="BPEL_SYNC_Ej01_01">
+        <plnk:role name="BPEL_SYNC_Ej01_01Provider" portType="client:BPEL_SYNC_Ej01_01"/>
+    </plnk:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://www.erpsol.com.mx/soa/fasttrack" schemaLocation="../SrvEje01_01.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="BPEL_SYNC_Ej01_01RequestMessage">
+        <wsdl:part name="payload" element="ns1:resqSrvcEj01"/>
+    </wsdl:message>
+    <wsdl:message name="BPEL_SYNC_Ej01_01ResponseMessage">
+        <wsdl:part name="payload" element="ns1:respSrvcEj01"/>
+    </wsdl:message>
+    <wsdl:portType name="BPEL_SYNC_Ej01_01">
+        <wsdl:operation name="process">
+            <wsdl:input message="client:BPEL_SYNC_Ej01_01RequestMessage"/>
+            <wsdl:output message="client:BPEL_SYNC_Ej01_01ResponseMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="BPEL_SYNC_Ej01_01Binding" type="client:BPEL_SYNC_Ej01_01">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="process">
+            <soap:operation style="document" soapAction="process"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="bpel_sync_ej01_01_client_ep">
+        <wsdl:port name="BPEL_SYNC_Ej01_01_pt" binding="client:BPEL_SYNC_Ej01_01Binding">
+            <soap:address location="http://eaar-g750jx-ol.localdomain:7004/soa-infra/services/ERPSOL01/PrjSOAEj01_01/bpel_sync_ej01_01_client_ep"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

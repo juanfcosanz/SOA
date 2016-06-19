@@ -1,0 +1,21 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<xsd:schema elementFormDefault="qualified" targetNamespace="http://prodps.capufe.gob.mx/LineaExpress/"
+     xmlns="http://prodps.capufe.gob.mx/LineaExpress/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:element name="argsEntradaGenerarSeguimientoSolicitudEnLinea">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="P_ID_ESTATUS" type="xsd:string"/>
+                <xsd:element name="P_DESC_MOV_SOL" type="xsd:string"/>
+                <xsd:element name="P_FECHA_MOV" type="xsd:string"/>
+                <xsd:element name="P_NUMERO_FOLIO" type="xsd:string"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="argsSalidaGenerarSeguimientoSolicitudEnLinea">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="resultadoGenerarSeguimientoSolicitudEnLinea" type="xsd:string"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

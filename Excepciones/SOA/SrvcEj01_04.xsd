@@ -1,0 +1,21 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.erpsol.com.mx/soa/fasttrack"
+     targetNamespace="http://www.erpsol.com.mx/soa/fasttrack" elementFormDefault="qualified">
+    <xsd:element name="reqSrvcEj01">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="Elem01" type="xsd:string"/>
+                <xsd:element name="Elem02" type="xsd:string"/>
+                <xsd:element name="Elem03" type="xsd:string"/>
+                <xsd:element name="Elem04" type="xsd:string"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="respSrvcEj01">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="resultadoEj01" type="xsd:string"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

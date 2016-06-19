@@ -1,0 +1,208 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Fri Jun 17 11:04:53 CDT 2016
+  Author:  NeryS
+  Type: BPEL 2.0 Process
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="BPEL_SYNC_PrjSOAEj02_03"
+               targetNamespace="http://xmlns.oracle.com/AppFastTrackSOA_03/PrjSOAEj02_05/BPEL_SYNC_PrjSOAEj02_03"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/AppFastTrackSOA_03/PrjSOAEj02_05/BPEL_SYNC_PrjSOAEj02_03"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:ui="http://xmlns.oracle.com/soa/designer"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://www.erpsol.com.mx/soa/fasttrack"
+         xmlns:ns2="http://xmlns.oracle.com/AppFastTrackSOA_01/PrjSOAEj01_01/BPEL_SYNC_Ej01_01"
+         xmlns:ns3="http://xmlns.oracle.com/AppFastTrackSOA_02/PrjSOAEj01_02/BPEL_SYNC_Ej01_02"
+         xmlns:ns4="http://xmlns.oracle.com/AppFastTrackSOA_03/PrjSOAEj01_03/BPEL_SYNC_Ej01_03"
+         xmlns:ns5="http://xmlns.oracle.com/AppFastTrackSOA_05/PrjSOAEj01_05/BPEL_SYNC_Ej01_05"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions" xmlns:ess="http://xmlns.oracle.com/scheduler"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:ns6="http://xmlns.oracle.com/APPFASTTRACKSOA_04/PRJSOAEJ01_04/BPEL_SYNC_EJ01_04_">
+
+    <import ui:processWSDL="true" namespace="http://xmlns.oracle.com/AppFastTrackSOA_03/PrjSOAEj02_05/BPEL_SYNC_PrjSOAEj02_03" location="../WSDLs/BPEL_SYNC_PrjSOAEj02_03.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    --> 
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="invocarServicosFastTrack" partnerLinkType="client:BPEL_SYNC_PrjSOAEj02_03" myRole="BPEL_SYNC_PrjSOAEj02_03Provider"/>
+    <partnerLink name="SrvcSOAEj01_01" partnerLinkType="ns2:BPEL_SYNC_Ej01_01" partnerRole="BPEL_SYNC_Ej01_01Provider"/>
+    <partnerLink name="SrvcSOAEj01_02" partnerLinkType="ns3:BPEL_SYNC_Ej01_02" partnerRole="BPEL_SYNC_Ej01_02Provider"/>
+    <partnerLink name="SrvcSOAEj01_03" partnerLinkType="ns4:BPEL_SYNC_Ej01_03" partnerRole="BPEL_SYNC_Ej01_03Provider"/>
+    <partnerLink name="SrvcSOAEj01_05" partnerLinkType="ns5:BPEL_SYNC_Ej01_05" partnerRole="BPEL_SYNC_Ej01_05Provider"/>
+    <partnerLink name="SrvcSOAEj01_04" partnerLinkType="ns6:BPEL_SYNC_EJ01_04_"
+                 partnerRole="BPEL_SYNC_EJ01_04_Provider"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="reqEj02_process_InputVariable" messageType="client:BPEL_SYNC_PrjSOAEj02_03RequestMessage"/>
+    <variable name="respEj02_process_OutputVariable" messageType="client:BPEL_SYNC_PrjSOAEj02_03ResponseMessage"/>
+    <variable name="InvokeSrvcSOAEj01_01_process_InputVariable" messageType="ns2:BPEL_SYNC_Ej01_01RequestMessage"/>
+    <variable name="InvokeSrvcSOAEj01_01_process_OutputVariable" messageType="ns2:BPEL_SYNC_Ej01_01ResponseMessage"/>
+    <variable name="InvokeSrvcSOAEj01_02_process_InputVariable" messageType="ns3:BPEL_SYNC_Ej01_02RequestMessage"/>
+    <variable name="InvokeSrvcSOAEj01_02_process_OutputVariable" messageType="ns3:BPEL_SYNC_Ej01_02ResponseMessage"/>
+    <variable name="InvokeSrvcSOAEj01_03_process_InputVariable" messageType="ns4:BPEL_SYNC_Ej01_03RequestMessage"/>
+    <variable name="InvokeSrvcSOAEj01_03_process_OutputVariable" messageType="ns4:BPEL_SYNC_Ej01_03ResponseMessage"/>
+    <variable name="InvokeSrvcSOAEj01_05_process_InputVariable" messageType="ns5:BPEL_SYNC_Ej01_05RequestMessage"/>
+    <variable name="InvokeSrvcSOAEj01_05_process_OutputVariable" messageType="ns5:BPEL_SYNC_Ej01_05ResponseMessage"/>
+    <variable name="respCallCatch_SrvcSOAEj01_01_process_OutputVariable"
+              messageType="client:BPEL_SYNC_PrjSOAEj02_03ResponseMessage"/>
+    <variable name="InvokeSrvcSOAEj01_04_process_InputVariable" messageType="ns6:BPEL_SYNC_EJ01_04_RequestMessage"/>
+    <variable name="InvokeSrvcSOAEj01_04_process_OutputVariable" messageType="ns6:BPEL_SYNC_EJ01_04_ResponseMessage"/>
+  </variables>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="principal_02">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in BPEL_SYNC_PrjSOAEj02_03.wsdl) -->
+    <receive name="reqEj02" partnerLink="invocarServicosFastTrack" portType="client:BPEL_SYNC_PrjSOAEj02_03" operation="process"
+             variable="reqEj02_process_InputVariable" createInstance="yes"/>
+    <scope name="ScopeSrvcSOAEj01_01">
+      <faultHandlers>
+        <catchAll>
+          <sequence name="Seq_CatchAll_SrvcSOAEJ01_01">
+            <assign name="Asgn_CALL_CATH_SrvcSOAEj01_01">
+              <copy>
+                <from>"Error en service SrvcSOAEj01_01"</from>
+                <to>$respEj02_process_OutputVariable.payload/ns1:resultadoEj01</to>
+              </copy>
+            </assign>
+            <reply name="respCallCatch_SrvcSOAEj01_01" variable="respEj02_process_OutputVariable"
+                   partnerLink="invocarServicosFastTrack" portType="client:BPEL_SYNC_PrjSOAEj02_03"
+                   operation="process"/>
+            <exit name="Exit_SrvcSOAEj01_01"/>
+          </sequence>
+        </catchAll>
+      </faultHandlers>
+      <invoke name="InvokeSrvcSOAEj01_01" bpelx:invokeAsDetail="no" partnerLink="SrvcSOAEj01_01"
+              portType="ns2:BPEL_SYNC_Ej01_01" operation="process"
+              inputVariable="InvokeSrvcSOAEj01_01_process_InputVariable"
+              outputVariable="InvokeSrvcSOAEj01_01_process_OutputVariable"/>
+    </scope>
+    <scope name="ScopeSrvcSOAEj01_02">
+      <faultHandlers>
+        <catchAll>
+          <sequence name="Sequence1">
+            <assign name="Asgn-CatchAll_1SrvcSOAEj01_02">
+              <extensionAssignOperation>
+                <bpelx:append>
+                  <bpelx:from>"Servicio SrvcSOAEj01_02 se encuentra inaccesible"</bpelx:from>
+                  <bpelx:to>$respEj02_process_OutputVariable</bpelx:to>
+                </bpelx:append>
+              </extensionAssignOperation>
+            </assign>
+            <reply name="Reply_SrvcSOAEj01_02" variable="respEj02_process_OutputVariable"
+                   partnerLink="invocarServicosFastTrack" portType="client:BPEL_SYNC_PrjSOAEj02_03"
+                   operation="process"/>
+            <exit name="Exit1"/>
+          </sequence>
+        </catchAll>
+      </faultHandlers>
+      <invoke name="InvokeSrvcSOAEj01_02" bpelx:invokeAsDetail="no" partnerLink="SrvcSOAEj01_02"
+              portType="ns3:BPEL_SYNC_Ej01_02" operation="process"
+              inputVariable="InvokeSrvcSOAEj01_02_process_InputVariable"
+              outputVariable="InvokeSrvcSOAEj01_02_process_OutputVariable"/>
+    </scope>
+    <scope name="ScopeSrvcSOAEj01_03">
+      <faultHandlers>
+        <catchAll>
+          <sequence name="Sequence2">
+            <assign name="Asgn_CatchAll_SrvcSOAEj01_03">
+              <copy>
+                <from>"Servicio SrvcSOAEj01_03 se encuentra inaccesible"</from>
+                <to>$respEj02_process_OutputVariable.payload/ns1:resultadoEj01</to>
+              </copy>
+            </assign>
+            <reply name="Reply_SrvcSOAEj01_03" variable="respEj02_process_OutputVariable"
+                   partnerLink="invocarServicosFastTrack" portType="client:BPEL_SYNC_PrjSOAEj02_03"
+                   operation="process"/>
+            <exit name="Exit_SrvcSOAEj01_03"/>
+          </sequence>
+        </catchAll>
+      </faultHandlers>
+      <invoke name="InvokeSrvcSOAEj01_03" bpelx:invokeAsDetail="no" partnerLink="SrvcSOAEj01_03"
+              portType="ns4:BPEL_SYNC_Ej01_03" operation="process"
+              inputVariable="InvokeSrvcSOAEj01_03_process_InputVariable"
+              outputVariable="InvokeSrvcSOAEj01_03_process_OutputVariable"/>
+    </scope>
+    <scope name="ScopeSrvcSOAEj01_04">
+      <faultHandlers>
+        <catchAll>
+          <sequence name="Sequence3">
+            <assign name="Assign_CatchAll_SrvcSOAEj01_04">
+              <copy>
+                <from>"El servico SrvcSOAEj01_04 esta inaccesible"</from>
+                <to>$respEj02_process_OutputVariable.payload/ns1:resultadoEj01</to>
+              </copy>
+            </assign>
+            <reply name="ReplySrvcSOAEj01_04" variable="respEj02_process_OutputVariable"
+                   partnerLink="invocarServicosFastTrack" portType="client:BPEL_SYNC_PrjSOAEj02_03"
+                   operation="process"/>
+            <exit name="Exit_SrvcSOAEj01_04"/>
+          </sequence>
+        </catchAll>
+      </faultHandlers>
+      <invoke name="InvokeSrvcSOAEj01_04" bpelx:invokeAsDetail="no" partnerLink="SrvcSOAEj01_04"
+              portType="ns6:BPEL_SYNC_EJ01_04_" operation="process"
+              inputVariable="InvokeSrvcSOAEj01_04_process_InputVariable"
+              outputVariable="InvokeSrvcSOAEj01_04_process_OutputVariable"/>
+    </scope>
+    <scope name="ScopeSrvcSOAEj01_05">
+      <faultHandlers>
+        <catchAll>
+          <empty name="EmptyContinuar"/>
+        </catchAll>
+      </faultHandlers>
+      <invoke name="InvokeSrvcSOAEj01_05" bpelx:invokeAsDetail="no" partnerLink="SrvcSOAEj01_05"
+              portType="ns5:BPEL_SYNC_Ej01_05" operation="process"
+              inputVariable="InvokeSrvcSOAEj01_05_process_InputVariable"
+              outputVariable="InvokeSrvcSOAEj01_05_process_OutputVariable"/>
+    </scope>
+    <assign name="AsgnResp">
+      <copy>
+        <from>"OK"</from>
+        <to>$respEj02_process_OutputVariable.payload/ns1:resultadoEj01</to>
+      </copy>
+    </assign>
+    <!-- Generate reply to synchronous request -->
+    <reply name="respEj02" partnerLink="invocarServicosFastTrack" portType="client:BPEL_SYNC_PrjSOAEj02_03" operation="process"
+           variable="respEj02_process_OutputVariable"/>
+  </sequence>
+</process>
