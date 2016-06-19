@@ -1,0 +1,86 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Fri Jun 17 17:52:20 CDT 2016
+  Author:  NeryS
+  Type: BPEL 2.0 Process
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="BPEL_ASYNC_PrjsSOAEj03_03"
+               targetNamespace="http://xmlns.oracle.com/AppFastTrackSOA_03/PrjSOAEj03_03/BPEL_ASYNC_PrjsSOAEj03_03"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/AppFastTrackSOA_03/PrjSOAEj03_03/BPEL_ASYNC_PrjsSOAEj03_03"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:ui="http://xmlns.oracle.com/soa/designer"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/db/AppFastTrackSOA_03/PrjSOAEj03_03/SrvcBDCPs"
+         xmlns:ns2="http://xmlns.oracle.com/pcbpel/adapter/db/sp/SrvcBDCPs"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+    <import ui:processWSDL="true" namespace="http://xmlns.oracle.com/AppFastTrackSOA_03/PrjSOAEj03_03/BPEL_ASYNC_PrjsSOAEj03_03" location="../WSDLs/BPEL_ASYNC_PrjsSOAEj03_03.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    --> 
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="bpel_async_prjssoaej03_03_client" partnerLinkType="client:BPEL_ASYNC_PrjsSOAEj03_03" myRole="BPEL_ASYNC_PrjsSOAEj03_03Provider"/>
+    <partnerLink name="SrvcBDCPs" partnerLinkType="ns1:SrvcBDCPs_plt" partnerRole="SrvcBDCPs_role"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:BPEL_ASYNC_PrjsSOAEj03_03RequestMessage"/>
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="outputVariable" messageType="client:BPEL_ASYNC_PrjsSOAEj03_03ResponseMessage"/>
+    <variable name="InvokeSrvcBDCPs_InputVariable" messageType="ns1:args_in_msg"/>
+    <variable name="InvokeSrvcBDCPs_OutputVariable" messageType="ns1:args_out_msg"/>
+  </variables>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="principal03">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in BPEL_ASYNC_PrjsSOAEj03_03.wsdl) -->
+    <receive name="reqSrvcEj03" partnerLink="bpel_async_prjssoaej03_03_client" portType="client:BPEL_ASYNC_PrjsSOAEj03_03" operation="process" variable="inputVariable" createInstance="yes"/>
+    <assign name="Asgn_SrvcPrjsOA03">
+      <copy>
+        <from>$inputVariable.payload/ns2:P_CODIGO_POSTAL</from>
+        <to>$InvokeSrvcBDCPs_InputVariable.InputParameters/ns2:P_CODIGO_POSTAL</to>
+      </copy>
+    </assign>
+    <invoke name="InvokeSrvcBDCPs" bpelx:invokeAsDetail="no" partnerLink="SrvcBDCPs" portType="ns1:SrvcBDCPs_ptt"
+            operation="SrvcBDCPs" inputVariable="InvokeSrvcBDCPs_InputVariable"
+            outputVariable="InvokeSrvcBDCPs_OutputVariable"/>
+    <assign name="AsgnOut_SrvcPrjEj03">
+      <copy>
+        <from>$InvokeSrvcBDCPs_OutputVariable.OutputParameters/ns2:FNCT_CONS_CP_EDO_CIUDAD</from>
+        <to>$outputVariable.payload/ns2:FNCT_CONS_CP_EDO_CIUDAD</to>
+      </copy>
+    </assign>
+    <!-- Generate reply to synchronous request -->
+    <reply name="respSrvcEj03" partnerLink="bpel_async_prjssoaej03_03_client" portType="client:BPEL_ASYNC_PrjsSOAEj03_03" operation="process" variable="outputVariable"/>
+  </sequence>
+</process>

@@ -1,0 +1,12 @@
+<adapter-config name="SrvcBDCPs" adapter="db" wsdlLocation="../WSDLs/SrvcBDCPs.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="Conn_DB_FastTrackSOA_SOABPM" location="eis/DB/AppLinexpSoaBPM"/>
+  <endpoint-interaction portType="SrvcBDCPs_ptt" operation="SrvcBDCPs">
+    <interaction-spec className="oracle.tip.adapter.db.DBStoredProcedureInteractionSpec">
+      <property name="SchemaName" value="APP_LINEXP_SOABPM"/>
+      <property name="ProcedureName" value="FNCT_CONS_CP_EDO_CIUDAD"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>
