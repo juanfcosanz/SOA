@@ -1,0 +1,34 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="BPEL_SYNC_PrjSOADetailHeaderReceive"
+     targetNamespace="http://xmlns.oracle.com/AppFastTrackSOA_03/PrjSOAHeaders/BPEL_SYNC_PrjSOADetailHeaderReceive"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:client="http://xmlns.oracle.com/AppFastTrackSOA_03/PrjSOAHeaders/BPEL_SYNC_PrjSOADetailHeaderReceive"
+     xmlns:ns1="http://xmlns.oracle.com/AppFastTrackSOA_03/PrjSOAHeaders/BPEL_SYNC_PrjSOAHeaders"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+    >
+    <plnk:partnerLinkType name="BPEL_SYNC_PrjSOADetailHeaderReceive">
+        <plnk:role name="BPEL_SYNC_PrjSOADetailHeaderReceiveProvider" portType="client:BPEL_SYNC_PrjSOADetailHeaderReceive"/>
+    </plnk:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:client="http://xmlns.oracle.com/AppFastTrackSOA_03/PrjSOAHeaders/BPEL_SYNC_PrjSOADetailHeaderReceive"
+             xmlns:ns1="http://xmlns.oracle.com/AppFastTrackSOA_03/PrjSOAHeaders/BPEL_SYNC_PrjSOAHeaders"
+             xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype">
+            <import namespace="http://xmlns.oracle.com/AppFastTrackSOA_03/PrjSOAHeaders/BPEL_SYNC_PrjSOAHeaders"
+                 schemaLocation="../Schemas/BPEL_SYNC_PrjSOAHeaders.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="BPEL_SYNC_PrjSOADetailHeaderReceiveRequestMessage">
+        <wsdl:part name="payload" element="ns1:process"/>
+    </wsdl:message>
+    <wsdl:message name="BPEL_SYNC_PrjSOADetailHeaderReceiveResponseMessage">
+        <wsdl:part name="payload" element="ns1:processResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="BPEL_SYNC_PrjSOADetailHeaderReceive">
+        <wsdl:operation name="process">
+            <wsdl:input message="client:BPEL_SYNC_PrjSOADetailHeaderReceiveRequestMessage"/>
+            <wsdl:output message="client:BPEL_SYNC_PrjSOADetailHeaderReceiveResponseMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

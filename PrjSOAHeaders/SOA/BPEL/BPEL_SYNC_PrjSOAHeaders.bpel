@@ -1,0 +1,119 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Sun Jun 19 02:57:46 CDT 2016
+  Author:  NeryS
+  Type: BPEL 2.0 Process
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="BPEL_SYNC_PrjSOAHeaders"
+               targetNamespace="http://xmlns.oracle.com/AppFastTrackSOA_03/PrjSOAHeaders/BPEL_SYNC_PrjSOAHeaders"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/AppFastTrackSOA_03/PrjSOAHeaders/BPEL_SYNC_PrjSOAHeaders"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:ui="http://xmlns.oracle.com/soa/designer"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/AppFastTrackSOA_03/PrjSOAHeaders/BPEL_SYNC_PrjSOADetailsHeadersReceive"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions" xmlns:ess="http://xmlns.oracle.com/scheduler"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:ns2="http://xmlns.oracle.com/AppFastTrackSOA_03/PrjSOAHeaders/BPEL_SYNC_PrjSOADetailHeaderReceive">
+  <import namespace="http://xmlns.oracle.com/AppFastTrackSOA_03/PrjSOAHeaders/BPEL_SYNC_PrjSOAHeaders"
+          location="../Schemas/BPEL_SYNC_PrjSOAHeaders.xsd" importType="http://www.w3.org/2001/XMLSchema"/>
+  <import ui:processWSDL="true" namespace="http://xmlns.oracle.com/AppFastTrackSOA_03/PrjSOAHeaders/BPEL_SYNC_PrjSOAHeaders" location="../WSDLs/BPEL_SYNC_PrjSOAHeaders.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    --> 
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="headers_client" partnerLinkType="client:BPEL_SYNC_PrjSOAHeaders" myRole="BPEL_SYNC_PrjSOAHeadersProvider"/>
+    <partnerLink name="BPEL_SYNC_PrjSOADetailHeaderReceive.detailheaderreceive_client"
+                 partnerLinkType="ns2:BPEL_SYNC_PrjSOADetailHeaderReceive"
+                 partnerRole="BPEL_SYNC_PrjSOADetailHeaderReceiveProvider"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:BPEL_SYNC_PrjSOAHeadersRequestMessage"/>
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="outputVariable" messageType="client:BPEL_SYNC_PrjSOAHeadersResponseMessage"/>
+    <variable name="Variable_customHeader" element="client:customHeader"/>
+    <variable name="Variable_infraHeader" element="client:infraHeader"/>
+    <variable name="Invoke_Details_process_InputVariable"
+              messageType="ns2:BPEL_SYNC_PrjSOADetailHeaderReceiveRequestMessage"/>
+    <variable name="Invoke_Details_process_OutputVariable"
+              messageType="ns2:BPEL_SYNC_PrjSOADetailHeaderReceiveResponseMessage"/>
+  </variables>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in BPEL_SYNC_PrjSOAHeaders.wsdl) -->
+    <receive name="receiveInput" partnerLink="headers_client" portType="client:BPEL_SYNC_PrjSOAHeaders" operation="process" variable="inputVariable" createInstance="yes"/>
+    <assign name="Assign_HeadersData">
+      <copy>
+        <from>xp20:current-dateTime()</from>
+        <to>$Variable_infraHeader/client:sendDate</to>
+      </copy>
+      <copy>
+        <from>ora:getComponentInstanceId()</from>
+        <to>$Variable_infraHeader/client:instanceId</to>
+      </copy>
+      <copy>
+        <from>ora:getComponentName()</from>
+        <to>$Variable_infraHeader/client:origin</to>
+      </copy>
+    </assign>
+    <assign name="Assign_MessageIntoCustomHeader">
+      <copy>
+        <from>$inputVariable.payload/client:input</from>
+        <to>$Variable_customHeader/client:message</to>
+      </copy>
+    </assign>
+    <invoke name="Invoke_Details"
+            partnerLink="BPEL_SYNC_PrjSOADetailHeaderReceive.detailheaderreceive_client"
+            portType="ns2:BPEL_SYNC_PrjSOADetailHeaderReceive" operation="process"
+            inputVariable="Invoke_Details_process_InputVariable"
+            outputVariable="Invoke_Details_process_OutputVariable" bpelx:invokeAsDetail="no"
+            bpelx:inputHeaderVariable="Variable_customHeader,Variable_infraHeader"/>
+    <assign name="Assign_PrjSOAOut">
+      <copy>
+        <from>$Invoke_Details_process_OutputVariable.payload/client:result</from>
+        <to>$outputVariable.payload/client:result</to>
+      </copy>
+    </assign>
+    <!-- Generate reply to synchronous request -->
+    <reply name="replyOutput" partnerLink="headers_client" portType="client:BPEL_SYNC_PrjSOAHeaders" operation="process" variable="outputVariable"/>
+  </sequence>
+</process>

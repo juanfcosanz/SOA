@@ -1,0 +1,32 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="BPEL_SYNC_PrjSOAHeaders"
+     targetNamespace="http://xmlns.oracle.com/AppFastTrackSOA_03/PrjSOAHeaders/BPEL_SYNC_PrjSOAHeaders"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:client="http://xmlns.oracle.com/AppFastTrackSOA_03/PrjSOAHeaders/BPEL_SYNC_PrjSOAHeaders"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+    >
+    <plnk:partnerLinkType name="BPEL_SYNC_PrjSOAHeaders">
+        <plnk:role name="BPEL_SYNC_PrjSOAHeadersProvider" portType="client:BPEL_SYNC_PrjSOAHeaders"/>
+    </plnk:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:client="http://xmlns.oracle.com/AppFastTrackSOA_03/PrjSOAHeaders/BPEL_SYNC_PrjSOAHeaders"
+             xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype">
+            <import namespace="http://xmlns.oracle.com/AppFastTrackSOA_03/PrjSOAHeaders/BPEL_SYNC_PrjSOAHeaders"
+                 schemaLocation="../Schemas/BPEL_SYNC_PrjSOAHeaders.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="BPEL_SYNC_PrjSOAHeadersRequestMessage">
+        <wsdl:part name="payload" element="client:process"/>
+    </wsdl:message>
+    <wsdl:message name="BPEL_SYNC_PrjSOAHeadersResponseMessage">
+        <wsdl:part name="payload" element="client:processResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="BPEL_SYNC_PrjSOAHeaders">
+        <wsdl:operation name="process">
+            <wsdl:input message="client:BPEL_SYNC_PrjSOAHeadersRequestMessage"/>
+            <wsdl:output message="client:BPEL_SYNC_PrjSOAHeadersResponseMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>
