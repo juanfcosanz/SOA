@@ -1,0 +1,25 @@
+Modified Composite [ PoProcessing ]
+  Composite properties
+	Property [ productVersion ]
+		No change in old and new value 12.2.1.0.0.151013 
+	Property [ compositeID ]
+		No change in old and new value e90edb36-1966-42c2-b8e3-ea9e330cc0b7 
+	Service
+	  Service  [ ReceivePO ]
+	    Service Bindings
+	  	Binding  [ ws ]
+	    Property [ weblogic.wsee.wsat.transaction.flowOption ]
+		No change in old and new value NEVER 
+	Attribute name=port
+		No change in old and new value http://oracle.com/sca/soapservice/POApplication/PoProcessing/ReceivePO#wsdl.endpoint(ReceivePO/execute_pt) 
+	Reference
+	  Reference  [ WritePOFileService ]
+	    Reference Bindings
+	  Reference  [ WritePOFileService ]
+	    Property [ orderfiles ]
+		Old [ C:\JDeveloper\mywork\POApplication\PoProcessing\SOA ] 
+		New [ C:\JDeveloper\mywork\POApplication\PoProcessing\SOA\podata ] 
+	    Reference Bindings
+	  	Binding  [ jca ]
+---End Match for composite [ PoProcessing ] in config plan---
+Checking for replacement in wsdl and schema files
