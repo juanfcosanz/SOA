@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd" >
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/" >
+
+
+    <appender name="consola" class="org.apache.log4j.ConsoleAppender">
+        <param name="target" value="System.out" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{dd MMM yyyy - HH:mm:ss} [%-5p] %c{2} - %m%n" />
+        </layout>
+
+        <filter class="org.apache.log4j.varia.LevelMatchFilter">
+            <param name="LevelToMatch" value="warn" />
+            <param name="AcceptOnMatch" value="false" />
+        </filter>
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">
+            <param name="LevelMin" value="info" />
+            <param name="LevelMax" value="error" />
+            <param name="AcceptOnMatch" value="true" />
+        </filter>
+    </appender>
+
+    <appender name="archivo" class="org.apache.log4j.FileAppender">
+        <param name="file" value="C:/Oracle/Java/Middleware/log/MiAplicacion/archivo.log" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{DATE} [%-5p] %c{2} - %m%n" />
+        </layout>
+    </appender>
+
+
+    <logger name="log4j.xml">
+        <level value="debug" />
+        <appender-ref ref="archivo" />
+    </logger>
+
+    <root>
+        <priority value="info" />
+        <appender-ref ref="consola"/>
+    </root>
+
+
+</log4j:configuration>
