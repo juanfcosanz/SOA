@@ -1,0 +1,42 @@
+<xsd:schema targetNamespace="http://claro.com.ec/osb/Bss/message/DocumentMessage/v1"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:tns="http://claro.com.ec/osb/Bss/message/DocumentMessage/v1">
+  <xsd:element name="documentRequest" type="tns:documentRequestMessage"/>
+  <xsd:element name="documentResponse" type="tns:DocumentResponseMessage"/>
+  <xsd:complexType name="documentRequestMessage">
+    <xsd:sequence>
+      <xsd:element name="docId" type="xsd:string"/>
+      <xsd:element name="AttachmentList" type="tns:AttachmentList"/>
+      <xsd:element name="operType" type="xsd:string"/>
+      <xsd:element name="documentName" type="xsd:string"/>
+      <xsd:element name="documentPath" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="DocumentResponseMessage">
+    <xsd:sequence>
+      <xsd:element name="document" type="xsd:string"/>
+      <xsd:element name="documentType" type="xsd:string"/>
+      <xsd:element name="documentRef" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="AttachmentList">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="unbounded" name="Attachment" type="tns:Attachment"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="Attachment">
+    <xsd:sequence>
+      <xsd:element name="Filename" type="xsd:string"/>
+      <xsd:element name="FileType" type="tns:FileType"/>
+      <xsd:element name="Data" type="xsd:base64Binary"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:simpleType name="FileType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="JPG"/>
+      <xsd:enumeration value="PDF"/>
+      <xsd:enumeration value="GIF"/>
+      <xsd:enumeration value="CSV"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:schema>

@@ -1,0 +1,13 @@
+<adapter-config name="PutFileCsv" adapter="ftp" wsdlLocation="PutFileCsv.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/Ftp/FtpCollector"/>
+  <endpoint-interaction portType="PutFileCsv_ptt" operation="PutFileCsv">
+    <interaction-spec className="oracle.tip.adapter.ftp.outbound.FTPInteractionSpec">
+      <property name="PhysicalDirectory" value="/files/incoming"/>
+      <property name="Append" value="false"/>
+      <property name="FileType" value="binary"/>
+      <property name="FileNamingConvention" value="File%yyyyMMdd%.csv"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

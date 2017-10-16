@@ -1,0 +1,15 @@
+<xsd:schema targetNamespace="http://claro.com.ec/osb/message/SendMnp/DownloadFileIdMessage/v1"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:tns="http://claro.com.ec/osb/message/SendMnp/DownloadFileIdMessage/v1">
+  <!-- Messages -->
+  <xsd:element name="DownloadFileIdRequest" type="tns:DownloadFileIdRequestMessage"/>
+  <!-- Request and Response Types -->
+  <xsd:complexType name="DownloadFileIdRequestMessage">
+    <xsd:sequence>
+      <xsd:element name="fileName" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="sftpPath" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="filePath" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="filePathDest" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

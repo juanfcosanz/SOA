@@ -1,0 +1,173 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE MessageFormat SYSTEM 'mfl.dtd'>
+<!--                                                              Enter description of the message format here.                                                           Esto es una prueba del XML parseado a Csv   -->
+<MessageFormat name='Offering' version='2.02'>
+    <FieldFormat name='Name' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+    <FieldFormat name='Id' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+    <FieldFormat name='Code' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+    <FieldFormat name='ShortName' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+    <FieldFormat name='Description' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+    <FieldFormat name='PrimaryFlag' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+    <FieldFormat name='BundleFlag' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+    <FieldFormat name='OwnerType' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+    <FieldFormat name='PaymentMode' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+    <FieldFormat name='EffDate' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+    <FieldFormat name='ExpDate' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+    <FieldFormat name='SaleEffDate' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+    <FieldFormat name='SaleExpDate' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+    <StructFormat name='ComponentOfferingList' delimOptional='y' optional='y'>
+        <StructFormat name='Offering' delimOptional='y' optional='y' repeat='*'>
+        </StructFormat>
+    </StructFormat>
+    <StructFormat name='ProductList' delimOptional='y' optional='y'>
+        <StructFormat name='Product' delimOptional='y' optional='y' repeat='*'>
+            <FieldFormat name='Name' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+            <FieldFormat name='Code' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+            <FieldFormat name='Id' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+        </StructFormat>
+    </StructFormat>
+    <StructFormat name='PricePlanList' delimOptional='y' optional='y'>
+        <StructFormat name='PricePlan' delimOptional='y' optional='y' repeat='*'>
+            <FieldFormat name='Name' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+            <FieldFormat name='Id' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+            <FieldFormat name='Code' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+            <FieldFormat name='Description' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+            <FieldFormat name='PlanType' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+            <FieldFormat name='OwnerType' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+            <FieldFormat name='Currency' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+            <StructFormat name='PolicyList' delimOptional='y' optional='y'>
+                <StructFormat name='Policy' delimOptional='y' optional='y' repeat='*'>
+                    <FieldFormat name='Name' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+                    <FieldFormat name='Id' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+                    <FieldFormat name='Code' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+                    <FieldFormat name='PolicyType' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+                    <StructFormat name='PatternActionList' delimOptional='y' optional='y'>
+                        <StructFormat name='PatternAction' delimOptional='y' optional='y' repeat='*'>
+                            <StructFormat name='Pattern' delimOptional='y' alternative='y' optional='y'>
+                                <StructFormat name='ConditionSelectionPattern' delimOptional='y' optional='y'>
+                                    <StructFormat name='ConditionNode' delimOptional='y' repeat='*'>
+                                        <FieldFormat name='ExpressionText' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+                                        <FieldFormat name='Annotation' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+                                        <FieldFormat name='DefaultNodeFlag' type='String' delimRef='' delim='|' delimOptional='n' codepage='UTF-8'/>
+                                        <StructFormat name='SubPatternActionList' delimOptional='y' optional='y'>
+                                            <StructFormat name='PatternAction' delimOptional='y' optional='y' repeat='*'>
+                                            </StructFormat>
+                                        </StructFormat>
+                                    </StructFormat>
+                                </StructFormat>
+                                <StructFormat name='SimpleRankPattern' delimOptional='y' optional='y'>
+                                    <FieldFormat name='RepeatFlag' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+                                    <FieldFormat name='RankFlag' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+                                    <StructFormat name='Rank' delimOptional='y' optional='y' repeat='*'>
+                                        <FieldFormat name='RankStartValue' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+                                        <StructFormat name='SubPatternActionList' delimOptional='y' optional='y'>
+                                            <StructFormat name='PatternAction' delimOptional='y' optional='y'>
+                                            </StructFormat>
+                                        </StructFormat>
+                                    </StructFormat>
+                                </StructFormat>
+                                <StructFormat name='TimespanRankPattern' delimOptional='y' optional='y'>
+                                    <StructFormat name='Span' delimOptional='y' optional='y' repeat='*'>
+                                        <FieldFormat name='TimeSchemaName' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+                                        <FieldFormat name='TimeSchemaDesc' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+                                        <StructFormat name='SubPatternActionList' delimOptional='y' optional='y'>
+                                            <StructFormat name='PatternAction' delimOptional='y' optional='y'>
+                                            </StructFormat>
+                                        </StructFormat>
+                                    </StructFormat>
+                                </StructFormat>
+                                <StructFormat name='MatrixSelectionPattern' delimOptional='y' optional='y'>
+                                    <FieldFormat name='MatrixColumn' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+                                    <StructFormat name='MatrixRows' delimOptional='y' optional='y'>
+                                        <StructFormat name='Row' delimOptional='y' optional='y' repeat='*'>
+                                            <FieldFormat name='RowDatas' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+                                            <StructFormat name='SubPatternActionList' delimOptional='y' optional='y'>
+                                                <StructFormat name='PatternAction' delimOptional='y' optional='y'>
+                                                </StructFormat>
+                                            </StructFormat>
+                                        </StructFormat>
+                                    </StructFormat>
+                                </StructFormat>
+                                <StructFormat name='ConditionSingleSelectionPattern' delimOptional='y' optional='y'>
+                                    <StructFormat name='ConditionNode' delimOptional='y' optional='y' repeat='*'>
+                                        <FieldFormat name='ExpressionText' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+                                        <FieldFormat name='Annotation' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+                                        <FieldFormat name='DefaultNodeFlag' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+                                        <StructFormat name='SubPatternActionList' delimOptional='y' optional='y'>
+                                            <StructFormat name='PatternAction' delimOptional='y' optional='y'>
+                                            </StructFormat>
+                                        </StructFormat>
+                                    </StructFormat>
+                                </StructFormat>
+                                <StructFormat name='ThresholdPattern' delimOptional='y' optional='y'>
+                                    <StructFormat name='Rank' delimOptional='y' optional='y' repeat='*'>
+                                        <FieldFormat name='ThresholdType' type='String' delimRef='' delim='|' delimOptional='n' codepage='UTF-8'/>
+                                        <FieldFormat name='FixedAmountThresholdValue' type='String' delimRef='' delim='|' delimOptional='n' codepage='UTF-8'/>
+                                        <FieldFormat name='PercentageThresholdValue' type='String' delimRef='' delim='|' delimOptional='n' codepage='UTF-8'/>
+                                        <StructFormat name='SubPatternActionList' delimOptional='y' optional='y'>
+                                            <StructFormat name='PatternAction' delimOptional='y'>
+                                            </StructFormat>
+                                        </StructFormat>
+                                    </StructFormat>
+                                    <FieldFormat name='ReferenceType' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+                                    <FieldFormat name='ThresholdDirection' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+                                    <StructFormat name='ThresholdReference' delimOptional='y' optional='y'>
+                                        <StructFormat name='AccmReference' delimOptional='y' optional='y'>
+                                            <FieldFormat name='AccmTypeId' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+                                        </StructFormat>
+                                        <StructFormat name='BalReference' delimOptional='y' optional='y'>
+                                            <FieldFormat name='BalanceTypeId' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+                                        </StructFormat>
+                                        <StructFormat name='FreeUnitReference' delimOptional='y' optional='y'>
+                                            <FieldFormat name='FreeUnitTypeId' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+                                        </StructFormat>
+                                    </StructFormat>
+                                </StructFormat>
+                            </StructFormat>
+                            <StructFormat name='Action' delimOptional='y' alternative='y' optional='y'>
+                                <StructFormat name='RateAction' delimOptional='y' optional='y'>
+                                    <FieldFormat name='RatioValue' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+                                    <FieldFormat name='RatioMeasurement' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+                                    <FieldFormat name='UnitValue' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+                                    <FieldFormat name='UnitMeasurement' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+                                    <FieldFormat name='PulseUnitValue' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+                                    <FieldFormat name='ChargeCode' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+                                </StructFormat>
+                                <StructFormat name='RateDiscountAction' delimOptional='y' optional='y'>
+                                    <FieldFormat name='DiscountValue' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+                                </StructFormat>
+                                <StructFormat name='RecurringChargeAction' delimOptional='y' optional='y'>
+                                    <FieldFormat name='RateValue' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+                                    <FieldFormat name='RateValueMeasurement' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+                                    <FieldFormat name='ChargeCode' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+                                </StructFormat>
+                                <StructFormat name='OneoffChargeAction' delimOptional='y' optional='y'>
+                                    <FieldFormat name='RateValue' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+                                    <FieldFormat name='RateValueMeasurement' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+                                    <FieldFormat name='ChargeCode' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+                                </StructFormat>
+                                <StructFormat name='RechargeAction' delimOptional='y' optional='y'>
+                                    <StructFormat name='RechargeBalanceRecord' delimOptional='y' optional='y'>
+                                        <FieldFormat name='AccountBalanceType' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+                                        <FieldFormat name='RechargeAmount' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+                                        <FieldFormat name='Measurement' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+                                    </StructFormat>
+                                </StructFormat>
+                                <StructFormat name='BalanceBonusAction' delimOptional='y' optional='y'>
+                                    <FieldFormat name='AccountBalanceType' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+                                    <FieldFormat name='BonusAmount' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+                                    <FieldFormat name='BonusAmountMeasurement' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+                                </StructFormat>
+                                <StructFormat name='FreeUnitBonusAction' delimOptional='y' optional='y'>
+                                    <FieldFormat name='FreeUnitTypeId' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+                                    <FieldFormat name='BonusAmount' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+                                    <FieldFormat name='BonusMeasurement' type='String' delimRef='' delim='|' delimOptional='y' optional='y' codepage='UTF-8'/>
+                                </StructFormat>
+                            </StructFormat>
+                        </StructFormat>
+                    </StructFormat>
+                </StructFormat>
+            </StructFormat>
+        </StructFormat>
+    </StructFormat>
+</MessageFormat>

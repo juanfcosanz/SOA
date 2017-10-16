@@ -1,0 +1,774 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 编辑使用 XMLSpy v2006 U (http://www.altova.com) 由 any (any) -->
+<!-- 编辑使用 XMLSpy v2006 U (http://www.altova.com) 由 any (any) -->
+<!-- 编辑使用 XMLSpy v2006 U (http://www.altova.com) 由 any (any) -->
+<!-- edited with XMLSpy v2013 (http://www.altova.com) by YU YULU (HUAWEI TECHNOLOGIES CO LTD) -->
+<!-- 编辑使用 XMLSpy v2006 U (http://www.altova.com) 由 any (any) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="Offering">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Name">
+					<xs:annotation>
+						<xs:documentation>Offering name</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="128"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Id" type="xs:long">
+					<xs:annotation>
+						<xs:documentation>Unique ID of an offering</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Code">
+					<xs:annotation>
+						<xs:documentation>Code of an offering</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="32"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ShortName">
+					<xs:annotation>
+						<xs:documentation>Short name of an offering</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="128"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Description">
+					<xs:annotation>
+						<xs:documentation>Description of an offering</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="256"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="PrimaryFlag">
+					<xs:annotation>
+						<xs:documentation>Indicates whether an offering is a primary offering. Primary identifier numbers such as mobile numbers must be generated for primary offerings. The options are as follows: 
+P: primary offering
+S: nonprimary offering</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="BundleFlag">
+					<xs:annotation>
+						<xs:documentation>Indicates whether an offering is a composite offering. A composite offering consists of atomic offerings. The options are as follows:
+S: atomic offering
+B: offering package
+G: composite offering</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="OwnerType">
+					<xs:annotation>
+						<xs:documentation>Owner type. 
+C: customer level
+S: subscriber level
+A: account level
+G: subscriber group level</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="PaymentMode">
+					<xs:annotation>
+						<xs:documentation>Payment mode of an offering.
+0: Prepaid
+1: Postpaid
+2: Hybrid</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="EffDate" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>Validity Period Start Time
+Format:  YYYYMMDDHHMMSS</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="ExpDate" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>Validity Period End Time
+Format:  YYYYMMDDHHMMSS</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="SaleEffDate" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>Subscription Start Time
+Format:  YYYYMMDDHHMMSS</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="SaleExpDate" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>Subscription End Time
+Format:  YYYYMMDDHHMMSS</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="ComponentOfferingList" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Atomic offerings, if the offering is a composite offering.  </xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="Offering" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ProductList" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Product list</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Product" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Name">
+											<xs:annotation>
+												<xs:documentation>Product name</xs:documentation>
+											</xs:annotation>
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:length value="128"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="Code">
+											<xs:annotation>
+												<xs:documentation>Code of a product </xs:documentation>
+											</xs:annotation>
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:length value="32"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="Id" type="xs:long">
+											<xs:annotation>
+												<xs:documentation>Unique ID of a product</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="PricePlanList" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Price plan list</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="PricePlan" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Name">
+											<xs:annotation>
+												<xs:documentation>Price plan name</xs:documentation>
+											</xs:annotation>
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:length value="128"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="Id" type="xs:long">
+											<xs:annotation>
+												<xs:documentation>Unique ID of a price plan</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="Code">
+											<xs:annotation>
+												<xs:documentation>Price plan code</xs:documentation>
+											</xs:annotation>
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:length value="32"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="Description">
+											<xs:annotation>
+												<xs:documentation>Description of the price plan</xs:documentation>
+											</xs:annotation>
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:length value="4000"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="PlanType">
+											<xs:annotation>
+												<xs:documentation>Plan type. The options are as follows:
+P: pricing plan
+</xs:documentation>
+											</xs:annotation>
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:length value="1"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="OwnerType">
+											<xs:annotation>
+												<xs:documentation>Owner type. The options are as follows:
+S: subscriber level
+A: account level
+G: subscriber group level</xs:documentation>
+											</xs:annotation>
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:length value="1"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="Currrency" type="xs:integer">
+											<xs:annotation>
+												<xs:documentation>Default currency type ID used during plan execution.
+</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="PolicyList">
+											<xs:annotation>
+												<xs:documentation>Policy list</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="Policy" maxOccurs="unbounded">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="Name">
+																	<xs:annotation>
+																		<xs:documentation>Policy name</xs:documentation>
+																	</xs:annotation>
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:length value="128"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="Id" type="xs:long">
+																	<xs:annotation>
+																		<xs:documentation>Unique ID of a policy plan</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="Code">
+																	<xs:annotation>
+																		<xs:documentation>Policy code</xs:documentation>
+																	</xs:annotation>
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:length value="32"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="PolicyType">
+																	<xs:annotation>
+																		<xs:documentation>Policy type. The options are as follows:
+A: usage charge rate
+B: recurring charge rate
+E: recurring charge discount
+2: one-off charge rate
+</xs:documentation>
+																	</xs:annotation>
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:length value="2"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="PatternActionList">
+																	<xs:annotation>
+																		<xs:documentation>Pattern - Action list</xs:documentation>
+																	</xs:annotation>
+																	<xs:complexType>
+																		<xs:sequence>
+																			<xs:element ref="PatternAction" maxOccurs="unbounded"/>
+																		</xs:sequence>
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PatternAction">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Pattern" minOccurs="0">
+					<xs:complexType>
+						<xs:choice>
+							<xs:element name="ConditionSelectionPattern">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="ConditionNode" maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="ExpressionText" type="xs:string">
+														<xs:annotation>
+															<xs:documentation>Conditional expression text</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="Annotation" type="xs:string">
+														<xs:annotation>
+															<xs:documentation>Annotation of the expression</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="DefaultNodeFlag" type="xs:string">
+														<xs:annotation>
+															<xs:documentation>The default branch</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="SubPatternActionList">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element ref="PatternAction" maxOccurs="unbounded"/>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="SimpleRankPattern">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="RepeatFlag">
+											<xs:annotation>
+												<xs:documentation>The cyclical rank type is used when the defined rank tariff needs to be recycled. For example, the tariff for local calls is 30 cents per minute within the first 3 minutes and then 20 cents per minute thereafter, and the charging cycle is 10 minutes.
+T: TRUE
+F: FALSE</xs:documentation>
+											</xs:annotation>
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:length value="1"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="RankFlag">
+											<xs:annotation>
+												<xs:documentation>1: Step
+When a subscriber's service usage reaches a specified value, the system divides the usage into ranks, calculates the fee for each rank based on the tariff specified for each rank, and obtains the sum total of all the fees.
+2: Tier
+When a subscriber's service usage reaches a specified value, the system divides the usage into ranks, and calculates the fee based on the tariff specified for the current rank.</xs:documentation>
+											</xs:annotation>
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:length value="1"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="Rank" maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="RankStartValue" type="xs:long">
+														<xs:annotation>
+															<xs:documentation>Start value of the rank</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="RankEndValue" type="xs:long">
+														<xs:annotation>
+															<xs:documentation>End value of the rank</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="SubPatternActionList">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element ref="PatternAction" maxOccurs="unbounded"/>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="TimespanRankPattern">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Span" maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="TimeSchemaName" type="xs:string">
+														<xs:annotation>
+															<xs:documentation>Time schema name</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="TimeSchemaDesc" type="xs:string">
+														<xs:annotation>
+															<xs:documentation>Time schema description</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="SubPatternActionList">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element ref="PatternAction" maxOccurs="unbounded"/>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="MatrixSelectionPattern">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="MatrixColumn" type="xs:string">
+											<xs:annotation>
+												<xs:documentation>Matrix column name , for example :
+ Called country code|Called area
+ </xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="MatrixRows">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="Row" minOccurs="0" maxOccurs="unbounded">
+														<xs:annotation>
+															<xs:documentation/>
+														</xs:annotation>
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="RowDatas" type="xs:string" nillable="false">
+																	<xs:annotation>
+																		<xs:documentation>Row value,  for example:  
+-1|23</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="SubPatternActionList">
+																	<xs:complexType>
+																		<xs:sequence>
+																			<xs:element ref="PatternAction" maxOccurs="unbounded"/>
+																		</xs:sequence>
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="ConditionSingleSelectionPattern">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="ConditionNode" maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="ExpressionText" type="xs:string">
+														<xs:annotation>
+															<xs:documentation>Conditional expression text</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="Annotation" type="xs:string">
+														<xs:annotation>
+															<xs:documentation>Annotation of the expression</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="DefaultNodeFlag" type="xs:string">
+														<xs:annotation>
+															<xs:documentation>The default branch</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="SubPatternActionList">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element ref="PatternAction" maxOccurs="unbounded"/>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="ThresholdPattern">
+								<xs:annotation>
+									<xs:documentation>门限模式，越过某个阈值时触发相应的动作，向动作传入的参数包括：越阈前值，越阈后的值，阈值。</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Rank" maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="ThresholdType" type="xs:string">
+														<xs:annotation>
+															<xs:documentation>Trigger Threshold type
+															fixedAmount / percentage</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="FixedAmountThresholdValue" type="xs:long" minOccurs="0">
+														<xs:annotation>
+															<xs:documentation>fixed amount threshold</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+                                                   <xs:element name="PercentageThresholdValue" type="xs:long" minOccurs="0">
+														<xs:annotation>
+															<xs:documentation>percentage threshold</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="SubPatternActionList">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element ref="PatternAction" maxOccurs="unbounded"/>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="ReferenceType" type="xs:string"/>
+										<xs:element name="ThresholdDirection" type="xs:string"/>
+										<xs:element name="ThresholdReference">
+											<xs:annotation>
+												<xs:documentation>要进行门限监控的对象。</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:choice>
+													<xs:element ref="AccmReference">
+														<xs:annotation>
+															<xs:documentation>参考的累积量。</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element ref="BalReference">
+														<xs:annotation>
+															<xs:documentation>参考的余额。</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element ref="FreeUnitReference">
+														<xs:annotation>
+															<xs:documentation>参考的免费资源。</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+												</xs:choice>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:choice>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Action" minOccurs="0">
+					<xs:complexType>
+						<xs:choice>
+							<xs:element name="RateAction">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="RatioValue" type="xs:float">
+											<xs:annotation>
+												<xs:documentation>Rate value</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="RatioMeasurement" type="xs:string">
+											<xs:annotation>
+												<xs:documentation>Rate measure</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="UnitValue" type="xs:long">
+											<xs:annotation>
+												<xs:documentation>Unit value of the rate</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="UnitMeasurement" type="xs:string">
+											<xs:annotation>
+												<xs:documentation>Unit measure of the rate</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="PulseUnitValue" type="xs:long">
+											<xs:annotation>
+												<xs:documentation>If a pulse unit is configured, the system charges calls based on the actual usage. If no pulse unit is configured, the system charges calls based on the configured charge rate.
+Assume that the configured charge rate is 100 cents per 60 seconds:
+- If the pulse unit is set to 30 seconds, and the call duration is 30 seconds (less than 60 seconds), the system charges the call by 30 seconds. The call fee is calculated as follows:(100/60)*30 = 50 cents.
+- If no pulse unit is configured, the default pulse unit 60 seconds the is used. If the call duration is 30 seconds (less than 60 seconds), the system charges the call by 60 seconds, and the call fee is 100 cents.</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="ChargeCode" type="xs:string"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="RateDiscountAction">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="DiscountValue" type="xs:float"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="RecurringChargeAction">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="RateValue" type="xs:float">
+											<xs:annotation>
+												<xs:documentation>Rate value</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="RateValueMeasurement" type="xs:string">
+											<xs:annotation>
+												<xs:documentation>Rate measure </xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="ChargeCode" type="xs:string"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="OneoffChargeAction">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="RateValue" type="xs:float">
+											<xs:annotation>
+												<xs:documentation>Rate value</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="RateValueMeasurement" type="xs:string">
+											<xs:annotation>
+												<xs:documentation>Rate measure </xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="ChargeCode" type="xs:string"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="RechargeAction">
+								<xs:annotation>
+									<xs:documentation>充值动作，用于充值、首次激活。</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="RechargeBalanceRecord" maxOccurs="unbounded">
+											<xs:annotation>
+												<xs:documentation>充值余额信息。</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:all>
+													<xs:element name="AccountBalanceType" type="xs:long"/>
+													<xs:element name="RechargeAmount" type="xs:float">
+														<xs:annotation>
+															<xs:documentation>Rate value</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="Measurement" type="xs:string">
+														<xs:annotation>
+															<xs:documentation>Rate measure </xs:documentation>
+														</xs:annotation>
+													</xs:element>
+												</xs:all>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="BalanceBonusAction">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="AccountBalanceType" type="xs:long"/>
+										<xs:element name="BonusAmount" type="xs:float"/>
+										<xs:element name="BonusAmountMeasurement" type="xs:string">
+											<xs:annotation>
+												<xs:documentation>Rate measure </xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="FreeUnitBonusAction">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="FreeUnitTypeId" type="xs:long"/>
+										<xs:element name="BonusAmount" type="xs:float"/>
+										<xs:element name="BonusAmountMeasurement" type="xs:string">
+											<xs:annotation>
+												<xs:documentation>Rate measure </xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:choice>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="BalReference">
+		<xs:annotation>
+			<xs:documentation>参考的余额</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="BalanceTypeId" type="xs:long"/>
+			</xs:all>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="AccmReference">
+		<xs:annotation>
+			<xs:documentation>参考的累积量</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="AccmTypeId" type="xs:long">
+					<xs:annotation>
+						<xs:documentation>累积量的类型的标识。</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:all>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="FreeUnitReference">
+		<xs:annotation>
+			<xs:documentation>参考的免费资源</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="FreeUnitTypeId" type="xs:long">
+					<xs:annotation>
+						<xs:documentation>免费资源类型的标识。</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:all>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:mfl="http://www.bea.com/mfl"
+            elementFormDefault="qualified">
+  <xsd:element name="Offering">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="Name" minOccurs="0" type="xsd:string"/>
+        <xsd:element name="Id" minOccurs="0" type="xsd:string"/>
+        <xsd:element name="Code" minOccurs="0" type="xsd:string"/>
+        <xsd:element name="ShortName" minOccurs="0" type="xsd:string"/>
+        <xsd:element name="Description" minOccurs="0" type="xsd:string"/>
+        <xsd:element name="PrimaryFlag" minOccurs="0" type="xsd:string"/>
+        <xsd:element name="BundleFlag" minOccurs="0" type="xsd:string"/>
+        <xsd:element name="OwnerType" minOccurs="0" type="xsd:string"/>
+        <xsd:element name="PaymentMode" minOccurs="0" type="xsd:string"/>
+        <xsd:element name="EffDate" minOccurs="0" type="xsd:string"/>
+        <xsd:element name="ExpDate" minOccurs="0" type="xsd:string"/>
+        <xsd:element name="SaleEffDate" minOccurs="0" type="xsd:string"/>
+        <xsd:element name="SaleExpDate" minOccurs="0" type="xsd:string"/>
+        <xsd:element name="ComponentOfferingList" minOccurs="0">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element minOccurs="0" maxOccurs="unbounded" ref="Offering"/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="ProductList" minOccurs="0">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element minOccurs="0" maxOccurs="unbounded" ref="Product"/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="PricePlanList" minOccurs="0">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element minOccurs="0" maxOccurs="unbounded" ref="PricePlan"/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="Policy">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="Name" minOccurs="0" type="xsd:string"/>
+        <xsd:element name="Id" minOccurs="0" type="xsd:string"/>
+        <xsd:element name="Code" minOccurs="0" type="xsd:string"/>
+        <xsd:element name="PolicyType" minOccurs="0" type="xsd:string"/>
+        <xsd:element name="PatternActionList" minOccurs="0">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element minOccurs="0" maxOccurs="unbounded" ref="PatternAction"/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="ConditionNode">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="ExpressionText" minOccurs="0" type="xsd:string"/>
+        <xsd:element name="Annotation" minOccurs="0" type="xsd:string"/>
+        <xsd:element name="DefaultNodeFlag" minOccurs="0" type="xsd:string"/>
+        <xsd:element name="SubPatternActionList" minOccurs="0">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element minOccurs="0" ref="PatternAction"/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="PatternAction">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="Pattern" minOccurs="0">
+          <xsd:complexType>
+            <xsd:choice>
+              <xsd:element name="ConditionSelectionPattern" minOccurs="0">
+                <xsd:complexType>
+                  <xsd:sequence>
+                    <xsd:element minOccurs="0" maxOccurs="unbounded" ref="ConditionNode"/>
+                  </xsd:sequence>
+                </xsd:complexType>
+              </xsd:element>
+              <xsd:element name="SimpleRankPattern" minOccurs="0">
+                <xsd:complexType>
+                  <xsd:sequence>
+                    <xsd:element name="RepeatFlag" minOccurs="0" type="xsd:string"/>
+                    <xsd:element name="RankFlag" minOccurs="0" type="xsd:string"/>
+                    <xsd:element minOccurs="0" maxOccurs="unbounded" ref="Rank"/>
+                  </xsd:sequence>
+                </xsd:complexType>
+              </xsd:element>
+              <xsd:element name="TimespanRankPattern" minOccurs="0">
+                <xsd:complexType>
+                  <xsd:sequence>
+                    <xsd:element minOccurs="0" maxOccurs="unbounded" ref="Span"/>
+                  </xsd:sequence>
+                </xsd:complexType>
+              </xsd:element>
+              <xsd:element name="MatrixSelectionPattern" minOccurs="0">
+                <xsd:complexType>
+                  <xsd:sequence>
+                    <xsd:element name="MatrixColumn" minOccurs="0" type="xsd:string"/>
+                    <xsd:element name="MatrixRows" minOccurs="0">
+                      <xsd:complexType>
+                        <xsd:sequence>
+                          <xsd:element minOccurs="0" maxOccurs="unbounded" ref="Row"/>
+                        </xsd:sequence>
+                      </xsd:complexType>
+                    </xsd:element>
+                  </xsd:sequence>
+                </xsd:complexType>
+              </xsd:element>
+              <xsd:element name="ConditionSingleSelectionPattern" minOccurs="0">
+                <xsd:complexType>
+                  <xsd:sequence>
+                    <xsd:element minOccurs="0" maxOccurs="unbounded" ref="ConditionNode"/>
+                  </xsd:sequence>
+                </xsd:complexType>
+              </xsd:element>
+              <xsd:element name="ThresholdPattern" minOccurs="0">
+                <xsd:complexType>
+                  <xsd:sequence>
+                    <xsd:element minOccurs="0" maxOccurs="unbounded" ref="Rank"/>
+                    <xsd:element name="ReferenceType" minOccurs="0" type="xsd:string"/>
+                    <xsd:element name="ThresholdDirection" minOccurs="0" type="xsd:string"/>
+                    <xsd:element name="ThresholdReference" minOccurs="0">
+                      <xsd:complexType>
+                        <xsd:sequence>
+                          <xsd:element name="AccmReference" minOccurs="0">
+                            <xsd:complexType>
+                              <xsd:sequence>
+                                <xsd:element name="AccmTypeId" minOccurs="0" type="xsd:string"/>
+                              </xsd:sequence>
+                            </xsd:complexType>
+                          </xsd:element>
+                          <xsd:element name="BalReference" minOccurs="0">
+                            <xsd:complexType>
+                              <xsd:sequence>
+                                <xsd:element name="BalanceTypeId" minOccurs="0" type="xsd:string"/>
+                              </xsd:sequence>
+                            </xsd:complexType>
+                          </xsd:element>
+                          <xsd:element name="FreeUnitReference" minOccurs="0">
+                            <xsd:complexType>
+                              <xsd:sequence>
+                                <xsd:element name="FreeUnitTypeId" minOccurs="0" type="xsd:string"/>
+                              </xsd:sequence>
+                            </xsd:complexType>
+                          </xsd:element>
+                        </xsd:sequence>
+                      </xsd:complexType>
+                    </xsd:element>
+                  </xsd:sequence>
+                </xsd:complexType>
+              </xsd:element>
+            </xsd:choice>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="Action" minOccurs="0">
+          <xsd:complexType>
+            <xsd:choice>
+              <xsd:element name="RateAction" minOccurs="0">
+                <xsd:complexType>
+                  <xsd:sequence>
+                    <xsd:element name="RatioValue" minOccurs="0" type="xsd:string"/>
+                    <xsd:element name="RatioMeasurement" minOccurs="0" type="xsd:string"/>
+                    <xsd:element name="UnitValue" minOccurs="0" type="xsd:string"/>
+                    <xsd:element name="UnitMeasurement" minOccurs="0" type="xsd:string"/>
+                    <xsd:element name="PulseUnitValue" minOccurs="0" type="xsd:string"/>
+                    <xsd:element name="ChargeCode" minOccurs="0" type="xsd:string"/>
+                  </xsd:sequence>
+                </xsd:complexType>
+              </xsd:element>
+              <xsd:element name="RateDiscountAction" minOccurs="0">
+                <xsd:complexType>
+                  <xsd:sequence>
+                    <xsd:element name="DiscountValue" minOccurs="0" type="xsd:string"/>
+                  </xsd:sequence>
+                </xsd:complexType>
+              </xsd:element>
+              <xsd:element name="RecurringChargeAction" minOccurs="0">
+                <xsd:complexType>
+                  <xsd:sequence>
+                    <xsd:element name="RateValue" minOccurs="0" type="xsd:string"/>
+                    <xsd:element name="RateValueMeasurement" minOccurs="0" type="xsd:string"/>
+                    <xsd:element name="ChargeCode" minOccurs="0" type="xsd:string"/>
+                  </xsd:sequence>
+                </xsd:complexType>
+              </xsd:element>
+              <xsd:element name="OneoffChargeAction" minOccurs="0">
+                <xsd:complexType>
+                  <xsd:sequence>
+                    <xsd:element name="RateValue" minOccurs="0" type="xsd:string"/>
+                    <xsd:element name="RateValueMeasurement" minOccurs="0" type="xsd:string"/>
+                    <xsd:element name="ChargeCode" minOccurs="0" type="xsd:string"/>
+                  </xsd:sequence>
+                </xsd:complexType>
+              </xsd:element>
+              <xsd:element name="RechargeAction" minOccurs="0">
+                <xsd:complexType>
+                  <xsd:sequence>
+                    <xsd:element name="RechargeBalanceRecord" minOccurs="0">
+                      <xsd:complexType>
+                        <xsd:sequence>
+                          <xsd:element name="AccountBalanceType" minOccurs="0" type="xsd:string"/>
+                          <xsd:element name="RechargeAmount" minOccurs="0" type="xsd:string"/>
+                          <xsd:element name="Measurement" minOccurs="0" type="xsd:string"/>
+                        </xsd:sequence>
+                      </xsd:complexType>
+                    </xsd:element>
+                  </xsd:sequence>
+                </xsd:complexType>
+              </xsd:element>
+              <xsd:element name="BalanceBonusAction" minOccurs="0">
+                <xsd:complexType>
+                  <xsd:sequence>
+                    <xsd:element name="AccountBalanceType" minOccurs="0" type="xsd:string"/>
+                    <xsd:element name="BonusAmount" minOccurs="0" type="xsd:string"/>
+                    <xsd:element name="BonusAmountMeasurement" minOccurs="0" type="xsd:string"/>
+                  </xsd:sequence>
+                </xsd:complexType>
+              </xsd:element>
+              <xsd:element name="FreeUnitBonusAction" minOccurs="0">
+                <xsd:complexType>
+                  <xsd:sequence>
+                    <xsd:element name="FreeUnitTypeId" minOccurs="0" type="xsd:string"/>
+                    <xsd:element name="BonusAmount" minOccurs="0" type="xsd:string"/>
+                    <xsd:element name="BonusMeasurement" minOccurs="0" type="xsd:string"/>
+                  </xsd:sequence>
+                </xsd:complexType>
+              </xsd:element>
+            </xsd:choice>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="Product">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="Name" minOccurs="0" type="xsd:string"/>
+        <xsd:element name="Code" minOccurs="0" type="xsd:string"/>
+        <xsd:element name="Id" minOccurs="0" type="xsd:string"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="Rank">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="ThresholdType" type="xsd:string"/>
+        <xsd:element name="FixedAmountThresholdValue" type="xsd:string"/>
+        <xsd:element name="PercentageThresholdValue" type="xsd:string"/>
+        <xsd:element name="SubPatternActionList" minOccurs="0">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element ref="PatternAction"/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="Row">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="RowDatas" minOccurs="0" type="xsd:string"/>
+        <xsd:element name="SubPatternActionList" minOccurs="0">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element minOccurs="0" ref="PatternAction"/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="Span">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="TimeSchemaName" minOccurs="0" type="xsd:string"/>
+        <xsd:element name="TimeSchemaDesc" minOccurs="0" type="xsd:string"/>
+        <xsd:element name="SubPatternActionList" minOccurs="0">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element minOccurs="0" ref="PatternAction"/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="PricePlan">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="Name" minOccurs="0" type="xsd:string"/>
+        <xsd:element name="Id" minOccurs="0" type="xsd:string"/>
+        <xsd:element name="Code" minOccurs="0" type="xsd:string"/>
+        <xsd:element name="Description" minOccurs="0" type="xsd:string"/>
+        <xsd:element name="PlanType" minOccurs="0" type="xsd:string"/>
+        <xsd:element name="OwnerType" minOccurs="0" type="xsd:string"/>
+        <xsd:element name="Currency" minOccurs="0" type="xsd:string"/>
+        <xsd:element name="PolicyList" minOccurs="0">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element minOccurs="0" maxOccurs="unbounded" ref="Policy"/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>

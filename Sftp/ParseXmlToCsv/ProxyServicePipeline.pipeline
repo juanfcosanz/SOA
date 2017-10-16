@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:pipelineEntry xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con1="http://www.bea.com/wli/sb/typesystem/config" xmlns:con2="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con3="http://www.bea.com/wli/sb/stages/config">
+    <con:coreEntry>
+        <con:binding type="Mixed" xsi:type="con:MixedBindingType">
+            <con:request type="XML">
+                <con1:schema ref="ParseXmlToCsv/Resources/MFL" element="Offering"/>
+            </con:request>
+        </con:binding>
+        <con:xqConfiguration>
+            <con:snippetVersion>1.0</con:snippetVersion>
+        </con:xqConfiguration>
+    </con:coreEntry>
+    <con:router>
+        <con:pipeline type="request" name="request-N3f57c7ff.1dd2a4a4.0.15e10bbb6fd.N8000">
+            <con:stage id="_StageId-N3f57c7ff.1dd2a4a4.0.15e10bbb6fd.N7ffe" name="ProcesingXmlInStage">
+                <con:context/>
+                <con:actions>
+                    <con2:assign varName="Procesing">
+                        <con3:id>_ActionId-N3f57c7ff.1dd2a4a4.0.15e10bbb6fd.N7ffa</con3:id>
+                        <con2:expr>
+                            <con3:xqueryTransform>
+                                <con3:resource ref="ParseXmlToCsv/Schemas/ProcesingXml"/>
+                                <con3:param name="Offering">
+                                    <con3:path>$body/Offering</con3:path>
+                                </con3:param>
+                            </con3:xqueryTransform>
+                        </con2:expr>
+                    </con2:assign>
+                </con:actions>
+            </con:stage>
+            <con:stage id="_StageId-N3f57c7ff.1dd2a4a4.0.15e10bbb6fd.N7ff9" name="TransformStage">
+                <con:context>
+                    <con3:userNsDecl prefix="ns2" namespace="http://www.example2.org"/>
+                    <con3:userNsDecl prefix="ns1" namespace="http://www.example.org"/>
+                </con:context>
+                <con:actions>
+                    <con2:foreach>
+                        <con3:id>_ActionId-N3f57c7ff.1dd2a4a4.0.15e10bbb6fd.N7ff0</con3:id>
+                        <con2:variable>body</con2:variable>
+                        <con2:expression>
+                            <con3:xpathText>$Procesing/ns1:PricePlanList/ns1:PricePlan</con3:xpathText>
+                        </con2:expression>
+                        <con2:value-variable>pricePlan</con2:value-variable>
+                        <con2:index-variable>IndexPlan</con2:index-variable>
+                        <con2:total-variable>countPlan</con2:total-variable>
+                        <con2:actions>
+                            <con2:ifThenElse>
+                                <con3:id>_ActionId-N3f57c7ff.2d33afbc.0.15e153e8a11.N7fc9</con3:id>
+                                <con2:case id="_BranchId-N3f57c7ff.2d33afbc.0.15e153e8a11.N7fc8">
+                                    <con2:condition>
+                                        <con3:xqueryText>fn:number($countPlan) != 0</con3:xqueryText>
+                                    </con2:condition>
+                                    <con2:actions>
+                                        <con2:assign varName="priceId">
+                                            <con3:id>_ActionId-N3f57c7ff.Nd24a1b5.0.15e261dbfb7.N7da5</con3:id>
+                                            <con2:expr>
+                                                <con3:xqueryText>fn:data($body/Offering/PricePlanList/PricePlan[$IndexPlan]/Id)</con3:xqueryText>
+                                            </con2:expr>
+                                        </con2:assign>
+                                        <con2:assign varName="plan">
+                                            <con3:id>_ActionId-N3f57c7ff.Nd24a1b5.0.15e261dbfb7.N7ffb</con3:id>
+                                            <con2:expr>
+                                                <con3:xqueryText>$pricePlan[1]</con3:xqueryText>
+                                            </con2:expr>
+                                        </con2:assign>
+                                        <con2:foreach>
+                                            <con3:id>_ActionId-N3f57c7ff.Nd24a1b5.0.15e261dbfb7.N7ffe</con3:id>
+                                            <con2:variable>body</con2:variable>
+                                            <con2:expression>
+                                                <con3:xpathText>$pricePlan/ns1:PolicyList/ns1:Policy</con3:xpathText>
+                                            </con2:expression>
+                                            <con2:value-variable>policy</con2:value-variable>
+                                            <con2:index-variable>indexPolicy</con2:index-variable>
+                                            <con2:total-variable>countPolicy</con2:total-variable>
+                                            <con2:actions>
+                                                <con2:ifThenElse>
+                                                    <con3:id>_ActionId-N3f57c7ff.Nd24a1b5.0.15e261dbfb7.N7f5d</con3:id>
+                                                    <con2:case id="_BranchId-N3f57c7ff.Nd24a1b5.0.15e261dbfb7.N7f5c">
+                                                        <con2:condition>
+                                                            <con3:xqueryText>fn:number($countPolicy) != 0</con3:xqueryText>
+                                                        </con2:condition>
+                                                        <con2:actions>
+                                                            <con2:assign varName="polic">
+                                                                <con3:id>_ActionId-N3f57c7ff.Nd24a1b5.0.15e261dbfb7.N7f56</con3:id>
+                                                                <con2:expr>
+                                                                    <con3:xqueryText>$policy[1]</con3:xqueryText>
+                                                                </con2:expr>
+                                                            </con2:assign>
+                                                            <con2:foreach>
+                                                                <con3:id>_ActionId-N3f57c7ff.Nd24a1b5.0.15e261dbfb7.N7f52</con3:id>
+                                                                <con2:variable>Procesing</con2:variable>
+                                                                <con2:expression>
+                                                                    <con3:xpathText>$policy/ns1:ActionList/ns1:Action</con3:xpathText>
+                                                                </con2:expression>
+                                                                <con2:value-variable>action</con2:value-variable>
+                                                                <con2:index-variable>indexAction</con2:index-variable>
+                                                                <con2:total-variable>countAction</con2:total-variable>
+                                                                <con2:actions>
+                                                                    <con2:ifThenElse>
+                                                                        <con3:id>_ActionId-N3f57c7ff.Nd24a1b5.0.15e261dbfb7.N7f40</con3:id>
+                                                                        <con2:case id="_BranchId-N3f57c7ff.Nd24a1b5.0.15e261dbfb7.N7f3f">
+                                                                            <con2:condition>
+                                                                                <con3:xqueryText>fn:number($countAction) != 0</con3:xqueryText>
+                                                                            </con2:condition>
+                                                                            <con2:actions>
+                                                                                <con2:assign varName="bool">
+                                                                                    <con3:id>_ActionId-N3f57c7ff.Nd24a1b5.0.15e261dbfb7.N7f27</con3:id>
+                                                                                    <con3:disabled>true</con3:disabled>
+                                                                                    <con2:expr>
+                                                                                        <con3:xqueryText>fn:string-length($action/ns1:FreeUnitBonusAction/ns1:FreeUnitTypeId) = 0
+and 
+fn:string-length($action/ns1:BalanceBonusAction/ns1:AccountBalanceType) = 0</con3:xqueryText>
+                                                                                    </con2:expr>
+                                                                                </con2:assign>
+                                                                                <con2:ifThenElse>
+                                                                                    <con3:id>_ActionId-N3f57c7ff.Nd24a1b5.0.15e261dbfb7.N7f30</con3:id>
+                                                                                    <con2:case id="_BranchId-N3f57c7ff.Nd24a1b5.0.15e261dbfb7.N7f2f">
+                                                                                        <con2:condition>
+                                                                                            <con3:xqueryText>fn:string-length($action/ns1:FreeUnitBonusAction/ns1:FreeUnitTypeId) = 0
+and 
+fn:string-length($action/ns1:BalanceBonusAction/ns1:AccountBalanceType) = 0</con3:xqueryText>
+                                                                                        </con2:condition>
+                                                                                        <con2:actions>
+                                                                                            <con2:assign varName="recupe">
+                                                                                                <con3:id>_ActionId-N3f57c7ff.Nd24a1b5.0.15e261dbfb7.N7d71</con3:id>
+                                                                                                <con3:disabled>true</con3:disabled>
+                                                                                                <con2:expr>
+                                                                                                    <con3:xqueryText>$Procesing/ns1:PricePlanList/ns1:PricePlan[$IndexPlan]/ns1:PolicyList/ns1:Policy[$indexPolicy]/ns1:ActionList/ns1:Action[$indexAction]</con3:xqueryText>
+                                                                                                </con2:expr>
+                                                                                            </con2:assign>
+                                                                                        </con2:actions>
+                                                                                    </con2:case>
+                                                                                    <con2:default>
+                                                                                        <con2:assign varName="res">
+                                                                                            <con3:id>_ActionId-N3f57c7ff.Nd24a1b5.0.15e261dbfb7.N7f3c</con3:id>
+                                                                                            <con3:disabled>true</con3:disabled>
+                                                                                            <con2:expr>
+                                                                                                <con3:xqueryText>"null"</con3:xqueryText>
+                                                                                            </con2:expr>
+                                                                                        </con2:assign>
+                                                                                        <con2:assign varName="actio">
+                                                                                            <con3:id>_ActionId-N3f57c7ff.Nd24a1b5.0.15e261dbfb7.N7f59</con3:id>
+                                                                                            <con2:expr>
+                                                                                                <con3:xqueryText>$Procesing/ns1:PricePlanList/ns1:PricePlan[$IndexPlan]/ns1:PolicyList/ns1:Policy[$indexPolicy]/ns1:ActionList/ns1:Action[$indexAction]</con3:xqueryText>
+                                                                                            </con2:expr>
+                                                                                        </con2:assign>
+                                                                                        <con2:assign varName="OUT">
+                                                                                            <con3:id>_ActionId-N3f57c7ff.Nd24a1b5.0.15e261dbfb7.N7dab</con3:id>
+                                                                                            <con2:expr>
+                                                                                                <con3:xqueryTransform>
+                                                                                                    <con3:resource ref="ParseXmlToCsv/Schemas/XmlToCsv"/>
+                                                                                                    <con3:param name="policyId">
+                                                                                                        <con3:path>fn:data($body/Offering/PricePlanList/PricePlan[$IndexPlan]/PolicyList/Policy[$indexPolicy]/Id)</con3:path>
+                                                                                                    </con3:param>
+                                                                                                    <con3:param name="action">
+                                                                                                        <con3:path>$Procesing/ns1:PricePlanList/ns1:PricePlan[$IndexPlan]/ns1:PolicyList/ns1:Policy[$indexPolicy]/ns1:ActionList/ns1:Action[$indexAction]</con3:path>
+                                                                                                    </con3:param>
+                                                                                                    <con3:param name="pricePlanId">
+                                                                                                        <con3:path>fn:data($body/Offering/PricePlanList/PricePlan[$IndexPlan]/Id)</con3:path>
+                                                                                                    </con3:param>
+                                                                                                    <con3:param name="Offering">
+                                                                                                        <con3:path>$Procesing</con3:path>
+                                                                                                    </con3:param>
+                                                                                                </con3:xqueryTransform>
+                                                                                            </con2:expr>
+                                                                                        </con2:assign>
+                                                                                        <con2:insert varName="Procesing">
+                                                                                            <con3:id>_ActionId-N3f57c7ff.71da21ea.0.15e29769199.N7ffd</con3:id>
+                                                                                            <con2:location>
+                                                                                                <con3:xpathText>$Procesing/ns1:Offerings</con3:xpathText>
+                                                                                            </con2:location>
+                                                                                            <con2:where>first-child</con2:where>
+                                                                                            <con2:expr>
+                                                                                                <con3:xqueryTransform>
+                                                                                                    <con3:resource ref="ParseXmlToCsv/Schemas/XmlToCsv"/>
+                                                                                                    <con3:param name="policyId">
+                                                                                                        <con3:path>fn:data($body/Offering/PricePlanList/PricePlan[$IndexPlan]/PolicyList/Policy[$indexPolicy]/Id)</con3:path>
+                                                                                                    </con3:param>
+                                                                                                    <con3:param name="action">
+                                                                                                        <con3:path>$Procesing/ns1:PricePlanList/ns1:PricePlan[$IndexPlan]/ns1:PolicyList/ns1:Policy[$indexPolicy]/ns1:ActionList/ns1:Action[$indexAction]</con3:path>
+                                                                                                    </con3:param>
+                                                                                                    <con3:param name="pricePlanId">
+                                                                                                        <con3:path>fn:data($body/Offering/PricePlanList/PricePlan[$IndexPlan]/Id)</con3:path>
+                                                                                                    </con3:param>
+                                                                                                    <con3:param name="Offering">
+                                                                                                        <con3:path>$Procesing</con3:path>
+                                                                                                    </con3:param>
+                                                                                                </con3:xqueryTransform>
+                                                                                            </con2:expr>
+                                                                                        </con2:insert>
+                                                                                    </con2:default>
+                                                                                </con2:ifThenElse>
+                                                                            </con2:actions>
+                                                                        </con2:case>
+                                                                        <con2:default/>
+                                                                    </con2:ifThenElse>
+                                                                </con2:actions>
+                                                            </con2:foreach>
+                                                        </con2:actions>
+                                                    </con2:case>
+                                                    <con2:default/>
+                                                </con2:ifThenElse>
+                                            </con2:actions>
+                                        </con2:foreach>
+                                    </con2:actions>
+                                </con2:case>
+                                <con2:default/>
+                            </con2:ifThenElse>
+                        </con2:actions>
+                    </con2:foreach>
+                </con:actions>
+            </con:stage>
+            <con:stage id="_StageId-N3f57c7ff.N398a55dc.0.15e2a895299.N7fcc" name="RequestFileCsvStage">
+                <con:context>
+                    <con3:userNsDecl prefix="ns1" namespace="http://www.example.org"/>
+                </con:context>
+                <con:actions>
+                    <con2:replace varName="body" contents-only="true">
+                        <con3:id>_ActionId-N3f57c7ff.N398a55dc.0.15e2a895299.N7fcb</con3:id>
+                        <con2:location>
+                            <con3:xpathText>.</con3:xpathText>
+                        </con2:location>
+                        <con2:expr>
+                            <con3:xqueryText>$Procesing/ns1:Offerings</con3:xqueryText>
+                        </con2:expr>
+                    </con2:replace>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:pipeline type="response" name="response-N3f57c7ff.1dd2a4a4.0.15e10bbb6fd.N7fff"></con:pipeline>
+        <con:flow>
+            <con:pipeline-node name="Pipeline Pair Node1">
+                <con:request>request-N3f57c7ff.1dd2a4a4.0.15e10bbb6fd.N8000</con:request>
+                <con:response>response-N3f57c7ff.1dd2a4a4.0.15e10bbb6fd.N7fff</con:response>
+            </con:pipeline-node>
+            <con:route-node name="RouteNode1" xmlns:con1="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config">
+                <con:context/>
+                <con:actions>
+                    <con1:route>
+                        <con2:id>_ActionId-N3f57c7ff.N398a55dc.0.15e2a895299.N7f03</con2:id>
+                        <con1:service ref="ParseXmlToCsv/BusinessService" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                        <con1:outboundTransform/>
+                        <con1:responseTransform/>
+                    </con1:route>
+                </con:actions>
+            </con:route-node>
+        </con:flow>
+    </con:router>
+</con:pipelineEntry>

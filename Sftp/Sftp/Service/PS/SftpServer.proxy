@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ser:proxyServiceEntry xmlns:ser="http://www.bea.com/wli/sb/services" xmlns:oper="http://xmlns.oracle.com/servicebus/proxy/operations" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tran="http://www.bea.com/wli/sb/transports" xmlns:env="http://www.bea.com/wli/config/env">
+    <ser:coreEntry>
+        <ser:binding type="abstract XML"/>
+        <oper:operations enabled="true"/>
+        <ser:invoke ref="Sftp/Service/PS/SftpServerPipeline" xsi:type="con:PipelineRef" xmlns:con="http://www.bea.com/wli/sb/pipeline/config"/>
+        <ser:xqConfiguration>
+            <ser:snippetVersion>1.0</ser:snippetVersion>
+        </ser:xqConfiguration>
+    </ser:coreEntry>
+    <ser:endpointConfig>
+        <tran:provider-id>sftp</tran:provider-id>
+        <tran:inbound>true</tran:inbound>
+        <tran:URI>
+            <env:value>sftp://DESKTOP-04697E4/SftpReadLocation</env:value>
+        </tran:URI>
+        <tran:inbound-properties/>
+        <tran:provider-specific xsi:type="sftp:SftpEndPointConfiguration" xmlns:sftp="http://www.bea.com/wli/sb/transports/sftp">
+            <sftp:inbound-properties>
+                <sftp:recursive-scan>false</sftp:recursive-scan>
+                <sftp:passByReference>false</sftp:passByReference>
+                <sftp:directStreaming>true</sftp:directStreaming>
+                <sftp:pollerTargetManagedServer/>
+                <sftp:download-directory>
+                    <env:value>E:\Files\Download</env:value>
+                </sftp:download-directory>
+                <sftp:timeout>60</sftp:timeout>
+                <sftp:auth-info>
+                    <sftp:service-account ref="Sftp/Resources/SftpUserCredential"/>
+                </sftp:auth-info>
+                <sftp:post-read-action>archive</sftp:post-read-action>
+                <sftp:archive-directory>
+                    <env:value>E:\Files</env:value>
+                </sftp:archive-directory>
+                <sftp:error-directory>
+                    <env:value>E:\Files\Error</env:value>
+                </sftp:error-directory>
+                <sftp:retry-count>3</sftp:retry-count>
+                <sftp:file-mask>data</sftp:file-mask>
+                <sftp:poll-info>
+                    <sftp:interval-milliseconds>10000</sftp:interval-milliseconds>
+                </sftp:poll-info>
+                <sftp:read-limit>10</sftp:read-limit>
+                <sftp:sortByArrival>false</sftp:sortByArrival>
+                <sftp:enableFIPSCompliance>false</sftp:enableFIPSCompliance>
+                <sftp:preferred-cipher>Use Runtime Default</sftp:preferred-cipher>
+                <sftp:preferred-hmac>Use Runtime Default</sftp:preferred-hmac>
+                <sftp:preferred-publicKey>ssh-rsa</sftp:preferred-publicKey>
+                <sftp:preferred-keyExchange>Use Runtime Default</sftp:preferred-keyExchange>
+                <sftp:preferred-compression>Use Runtime Default</sftp:preferred-compression>
+                <sftp:regex-file-mask>false</sftp:regex-file-mask>
+                <sftp:tmp-file-suffix>.pdf</sftp:tmp-file-suffix>
+            </sftp:inbound-properties>
+            <sftp:request-encoding>utf-8</sftp:request-encoding>
+        </tran:provider-specific>
+    </ser:endpointConfig>
+</ser:proxyServiceEntry>

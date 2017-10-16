@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:pipelineEntry xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
+    <con:coreEntry>
+        <con:binding type="Native REST" xsi:type="con:NativeRestBindingType"/>
+        <con:xqConfiguration>
+            <con:snippetVersion>1.0</con:snippetVersion>
+        </con:xqConfiguration>
+    </con:coreEntry>
+    <con:router>
+        <con:flow>
+            <con:route-node name="RouteNode1" xmlns:con1="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config">
+                <con:context/>
+                <con:actions>
+                    <con1:route>
+                        <con2:id>_ActionId-N3f57f3d9.4d6f48c4.0.15dae64bc34.N77ae</con2:id>
+                        <con1:service ref="SBSftpConn/RestSftpServerConn" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                        <con1:operation>downloadFile</con1:operation>
+                        <con1:outboundTransform>
+                            <con3:transport-headers copy-all="true" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                                <con2:id>_ActionId-N3f57f3d9.4d6f48c4.0.15dae64bc34.N77a8</con2:id>
+                                <con3:header-set>outbound-request</con3:header-set>
+                                <con3:header value="expression" name="Content-Type">
+                                    <con2:xqueryText>'application/json;charset=UTF-8'</con2:xqueryText>
+                                </con3:header>
+                                <con3:header value="expression" name="Accept">
+                                    <con2:xqueryText>'application/json;charset=UTF-8'</con2:xqueryText>
+                                </con3:header>
+                            </con3:transport-headers>
+                        </con1:outboundTransform>
+                        <con1:responseTransform>
+                            <con3:transport-headers copy-all="true" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                                <con2:id>_ActionId-N3f57f3d9.4d6f48c4.0.15dae64bc34.N77a5</con2:id>
+                                <con3:header-set>inbound-response</con3:header-set>
+                                <con3:header value="expression" name="Content-Type">
+                                    <con2:xqueryText>'application/json;charset=UTF-8'</con2:xqueryText>
+                                </con3:header>
+                            </con3:transport-headers>
+                        </con1:responseTransform>
+                    </con1:route>
+                </con:actions>
+            </con:route-node>
+        </con:flow>
+    </con:router>
+</con:pipelineEntry>

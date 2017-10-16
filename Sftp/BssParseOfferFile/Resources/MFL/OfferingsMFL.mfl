@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='windows-1252'?>
+<!DOCTYPE MessageFormat SYSTEM 'mfl.dtd'>
+<!--  Enter description of the message format here.  -->
+<MessageFormat name='Offerings' version='2.02'>
+    <StructFormat name='OfferingResponse' delimOptional='y' repeat='*'>
+        <FieldFormat name='OfferId' type='String' delimRef='' delim='|' delimOptional='n' codepage='UTF-8'/>
+        <FieldFormat name='ActivationId' type='String' delimRef='' delim='|' delimOptional='n' codepage='UTF-8'/>
+        <FieldFormat name='Name' type='String' delimRef='' delim='|' delimOptional='n' codepage='UTF-8'/>
+        <FieldFormat name='Description' type='String' delimRef='' delim='|' delimOptional='n' codepage='UTF-8'/>
+        <FieldFormat name='EffDate' type='String' delimRef='' delim='|' delimOptional='n' codepage='UTF-8'/>
+        <FieldFormat name='ExpDate' type='String' delimRef='' delim='|' delimOptional='n' codepage='UTF-8'/>
+        <FieldFormat name='PaymentMode' type='String' delimRef='' delim='|' delimOptional='n' codepage='UTF-8'/>
+        <FieldFormat name='Brand' type='String' delimRef='' delim='|' delimOptional='n' codepage='UTF-8'/>
+        <StructFormat name='PricePlanList' delimOptional='y'>
+            <StructFormat name='PricePlan' delimOptional='y'>
+                <FieldFormat name='Id' type='String' delimRef='' delim='|' delimOptional='n' codepage='UTF-8'/>
+                <StructFormat name='PolicyList' delimOptional='y'>
+                    <StructFormat name='Policy' delimOptional='y'>
+                        <FieldFormat name='Id' type='String' delimRef='' delim='|' delimOptional='n' codepage='UTF-8'/>
+                        <StructFormat name='ActionList' delimOptional='y'>
+                            <StructFormat name='Action' delimOptional='y'>
+                                <StructFormat name='FreeUnitBonusAction' delimOptional='y'>
+                                    <FieldFormat name='FreeUnitTypeId' type='String' delimRef='' delim='|' delimOptional='n' codepage='UTF-8'/>
+                                    <FieldFormat name='BonusAmount' type='String' delimRef='' delim='|' delimOptional='n' codepage='UTF-8'/>
+                                    <FieldFormat name='BonusAmountMeasurement' type='String' delimRef='' delim='|' delimOptional='n' codepage='UTF-8'/>
+                                </StructFormat>
+                                <StructFormat name='BalanceBonusAction' delimOptional='y'>
+                                    <FieldFormat name='AccountBalanceType' type='String' delimRef='' delim='|' delimOptional='n' codepage='UTF-8'/>
+                                    <FieldFormat name='BonusAmount' type='String' delimRef='' delim='|' delimOptional='n' codepage='UTF-8'/>
+                                    <FieldFormat name='BonusAmountMeasurement' type='String' delimRef='' delim='\n' delimOptional='n' codepage='UTF-8'/>
+                                </StructFormat>
+                            </StructFormat>
+                        </StructFormat>
+                    </StructFormat>
+                </StructFormat>
+            </StructFormat>
+        </StructFormat>
+    </StructFormat>
+</MessageFormat>

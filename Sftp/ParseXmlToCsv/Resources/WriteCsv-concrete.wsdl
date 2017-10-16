@@ -1,0 +1,12 @@
+<wsdl:definitions targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/file/AppServiceBus/ParseXmlToCsv/WriteCsv" name="WriteCsv-concrete" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+    <wsdl:import location="WriteCsv.wsdl" namespace="http://xmlns.oracle.com/pcbpel/adapter/file/AppServiceBus/ParseXmlToCsv/WriteCsv"/>
+    <wsdl:binding name="Write_ptt-binding" type="writ:Write_ptt" xmlns:writ="http://xmlns.oracle.com/pcbpel/adapter/file/AppServiceBus/ParseXmlToCsv/WriteCsv">
+        <soap:binding style="document" transport="http://www.bea.com/wli/sb/transports/jca"/>
+        <wsdl:operation name="Write">
+            <soap:operation soapAction="Write"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+        </wsdl:operation>
+    </wsdl:binding>
+</wsdl:definitions>

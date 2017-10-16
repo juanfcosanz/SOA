@@ -1,0 +1,30 @@
+<wsdl:definitions
+     name="GetFileXmlIn"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/ftp/AppServiceBus/BssParseOfferFile/GetFileXmlIn"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/ftp/AppServiceBus/BssParseOfferFile/GetFileXmlIn"
+     xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:pc="http://xmlns.oracle.com/pcbpel/"
+     xmlns:opaque="http://xmlns.oracle.com/pcbpel/adapter/opaque/"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+  <plt:partnerLinkType name="GetFileXmlIn_plt" >
+    <plt:role name="GetFileXmlIn_role" >
+      <plt:portType name="tns:GetFileXmlIn_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+    <schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/opaque/"
+            xmlns="http://www.w3.org/2001/XMLSchema" >
+      <element name="opaqueElement" type="base64Binary" />
+    </schema>
+    </wsdl:types>
+    <wsdl:message name="GetFileXmlIn_msg">
+        <wsdl:part name="opaque" element="opaque:opaqueElement"/>
+    </wsdl:message>
+    <wsdl:portType name="GetFileXmlIn_ptt">
+        <wsdl:operation name="GetFileXmlIn">
+            <wsdl:input message="tns:GetFileXmlIn_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

@@ -1,0 +1,42 @@
+<wsdl:definitions name="Document" targetNamespace="http://claro.com.ec/osb/Bss/Document/Document/v1"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ct="http://claro.com.ec/CommonTypes/types"
+                  xmlns:tns="http://claro.com.ec/osb/Bss/Document/Document/v1"
+                  xmlns:doc="http://claro.com.ec/osb/Bss/message/DocumentMessage/v1"
+                  xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/">
+  <wsdl:types>
+    <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+      <xsd:import namespace="http://claro.com.ec/osb/Bss/message/DocumentMessage/v1" schemaLocation="Message.xsd"/>
+    </xsd:schema>
+  </wsdl:types>
+  <!-- Document -->
+  <wsdl:message name="DocumentRequestMessage">
+    <wsdl:part name="request" element="doc:documentRequest"/>
+  </wsdl:message>
+  <wsdl:message name="DocumentResponseMessage">
+        <wsdl:part name="response" element="doc:documentResponse"/>
+    </wsdl:message>
+  <wsdl:portType name="DocumentPort">
+    <wsdl:operation name="Document">
+      <wsdl:input name="DocumentRequest" message="tns:DocumentRequestMessage"/>
+      <wsdl:output name="DocumentResponse"  message="tns:DocumentResponseMessage"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="DocumentSoap12Binding" type="tns:DocumentPort">
+    <soap12:binding style="document" transport="http://www.w3.org/2003/05/soap/bindings/HTTP/"/>
+    <wsdl:operation name="Document">
+      <wsdl:documentation></wsdl:documentation>
+      <soap12:operation/>
+      <wsdl:input name="DocumentRequest">
+        <soap12:body use="literal" namespace="http://claro.com.ec/osb/Bss/Document/Document/v1"/>
+      </wsdl:input>
+       <wsdl:output name="DocumentResponse">
+        <soap12:body use="literal" namespace="http://claro.com.ec/osb/Bss/Document/Document/v1"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="DocumentV1">
+    <wsdl:port name="DocumentSOAP12PortV1" binding="tns:DocumentSoap12Binding">
+      <soap12:address location=""/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

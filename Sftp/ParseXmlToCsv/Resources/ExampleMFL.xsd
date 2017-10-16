@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+          xmlns:mfl="http://www.bea.com/mfl"
+          elementFormDefault="qualified">
+
+    <xsd:element name="Offerings">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element minOccurs="0" maxOccurs="unbounded" ref="Offering"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="Offering">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="OfferId" type="xsd:string"/>
+                <xsd:element name="ActivationId" type="xsd:string"/>
+                <xsd:element name="Name" type="xsd:string"/>
+                <xsd:element name="Description" type="xsd:string"/>
+                <xsd:element name="EffDate" type="xsd:string"/>
+                <xsd:element name="ExpDate" type="xsd:string"/>
+                <xsd:element name="PaymentMode" type="xsd:string"/>
+                <xsd:element name="Brand" type="xsd:string"/>
+                <xsd:element name="PricePlanList">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="PricePlan">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="Id" type="xsd:string"/>
+                                        <xsd:element name="PolicyList">
+                                            <xsd:complexType>
+                                                <xsd:sequence>
+                                                    <xsd:element name="Policy">
+                                                        <xsd:complexType>
+                                                            <xsd:sequence>
+                                                                <xsd:element name="Id" type="xsd:string"/>
+                                                                <xsd:element name="ActionList">
+                                                                    <xsd:complexType>
+                                                                        <xsd:sequence>
+                                                                            <xsd:element name="Action">
+                                                                                <xsd:complexType>
+                                                                                    <xsd:sequence>
+                                                                                        <xsd:element name="FreeUnitBonusAction">
+                                                                                            <xsd:complexType>
+                                                                                                <xsd:sequence>
+                                                                                                    <xsd:element name="FreeUnitTypeId" type="xsd:string"/>
+                                                                                                    <xsd:element name="BonusAmount" type="xsd:string"/>
+                                                                                                    <xsd:element name="BonusAmountMeasurement" type="xsd:string"/>
+                                                                                                </xsd:sequence>
+                                                                                            </xsd:complexType>
+                                                                                        </xsd:element>
+                                                                                        <xsd:element name="BalanceBonusAction">
+                                                                                            <xsd:complexType>
+                                                                                                <xsd:sequence>
+                                                                                                    <xsd:element name="AccountBalanceType" type="xsd:string"/>
+                                                                                                    <xsd:element name="BonusAmount" type="xsd:string"/>
+                                                                                                    <xsd:element name="BonusAmountMeasurement" type="xsd:string"/>
+                                                                                                </xsd:sequence>
+                                                                                            </xsd:complexType>
+                                                                                        </xsd:element>
+                                                                                    </xsd:sequence>
+                                                                                </xsd:complexType>
+                                                                            </xsd:element>
+                                                                        </xsd:sequence>
+                                                                    </xsd:complexType>
+                                                                </xsd:element>
+                                                            </xsd:sequence>
+                                                        </xsd:complexType>
+                                                    </xsd:element>
+                                                </xsd:sequence>
+                                            </xsd:complexType>
+                                        </xsd:element>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+</xsd:schema>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:pipelineEntry xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:con1="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+    <con:coreEntry>
+        <con:binding type="Any XML"/>
+        <con:xqConfiguration>
+            <con:snippetVersion>1.0</con:snippetVersion>
+        </con:xqConfiguration>
+    </con:coreEntry>
+    <con:router>
+        <con:pipeline type="request" name="request-a1e1583.N47b366b5.0.15c02ecb169.N7ff5">
+            <con:stage id="_StageId-a1e1583.N47b366b5.0.15c02ecb169.N7ff3" name="Stage1">
+                <con:context/>
+                <con:actions>
+                    <con1:log>
+                        <con2:id>_ActionId-a1e1583.N47b366b5.0.15c02ecb169.N7fef</con2:id>
+                        <con1:logLevel>info</con1:logLevel>
+                        <con1:message>Conten Message</con1:message>
+                    </con1:log>
+                    <con3:javaCallout varName="htmlEncodeCnt">
+                        <con2:id>_ActionId-a1e1583.N47b366b5.0.15c02ecb169.N7fec</con2:id>
+                        <con3:archive ref="Encode/Services/Base64Encoder"/>
+                        <con3:className>com.wordpress.rathinasaba.encoder.Base64Encoder</con3:className>
+                        <con3:method>public static java.lang.String encode(java.lang.String)</con3:method>
+                        <con3:expr>
+                            <con2:xqueryText>'&lt;html>
+&lt;body>
+Hola mundo
+&lt;/body>
+&lt;/html>'</con2:xqueryText>
+                        </con3:expr>
+                        <con3:return-param-as-ref>false</con3:return-param-as-ref>
+                    </con3:javaCallout>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:pipeline type="response" name="response-a1e1583.N47b366b5.0.15c02ecb169.N7ff4">
+            <con:stage id="_StageId-a1e1583.N47b366b5.0.15c02ecb169.N7ff2" name="Stage1">
+                <con:context/>
+                <con:actions>
+                    <con3:replace varName="body" contents-only="true">
+                        <con2:id>_ActionId-a1e1583.N47b366b5.0.15c02ecb169.N7fe4</con2:id>
+                        <con3:location>
+                            <con2:xpathText>.</con2:xpathText>
+                        </con3:location>
+                        <con3:expr>
+                            <con2:xqueryText>&lt;send>
+&lt;sendElement>{data($htmlEncodeCnt)}&lt;/sendElement>
+&lt;/send></con2:xqueryText>
+                        </con3:expr>
+                    </con3:replace>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:flow>
+            <con:pipeline-node name="Pipeline Pair Node1">
+                <con:request>request-a1e1583.N47b366b5.0.15c02ecb169.N7ff5</con:request>
+                <con:response>response-a1e1583.N47b366b5.0.15c02ecb169.N7ff4</con:response>
+            </con:pipeline-node>
+        </con:flow>
+    </con:router>
+</con:pipelineEntry>

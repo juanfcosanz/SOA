@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:pipelineEntry xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con1="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con3="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con4="http://www.bea.com/wli/sb/stages/transform/config">
+    <con:coreEntry>
+        <con:binding type="SOAP" isSoap12="true" xsi:type="con:SoapBindingType">
+            <con:wsdl ref="Sftp/Resources/SftpDocumentV1"/>
+            <con:binding>
+                <con:name>DocumentSoap12Binding</con:name>
+                <con:namespace>http://claro.com.ec/osb/Bss/Document/Document/v1</con:namespace>
+            </con:binding>
+        </con:binding>
+        <con:xqConfiguration>
+            <con:snippetVersion>1.0</con:snippetVersion>
+        </con:xqConfiguration>
+    </con:coreEntry>
+    <con:router>
+        <con:pipeline type="request" name="request-a1e1587.148eaff2.0.15cad60358e.N7d22">
+            <con:stage id="_StageId-a1e1587.148eaff2.0.15cad60358e.N7d20" name="Request">
+                <con:context/>
+                <con:actions>
+                    <con4:insert varName="inbound">
+                        <con2:id>_ActionId-a1e1583.4eae48e8.0.15cb183f76f.N7e11</con2:id>
+                        <con2:disabled>true</con2:disabled>
+                        <con4:location>
+                            <con2:xpathText>./ctx:transport/ctx:request/tp:headers</con2:xpathText>
+                        </con4:location>
+                        <con4:where>first-child</con4:where>
+                        <con4:expr>
+                            <con2:xqueryText>&lt;sftp:fileName>{fn:concat('./SftpReadLocation/','file.pdf')}&lt;/sftp:fileName></con2:xqueryText>
+                        </con4:expr>
+                    </con4:insert>
+                    <con4:insert varName="inbound">
+                        <con2:id>_ActionId-N56011d30.N21fa783d.0.15ce52340c3.N7ffb</con2:id>
+                        <con2:disabled>true</con2:disabled>
+                        <con4:location>
+                            <con2:xpathText>./ctx:transport/ctx:request</con2:xpathText>
+                        </con4:location>
+                        <con4:where>first-child</con4:where>
+                        <con4:expr>
+                            <con2:xqueryText>&lt;sftp:isFilePath>true&lt;/sftp:isFilePath></con2:xqueryText>
+                        </con4:expr>
+                    </con4:insert>
+                    <con4:replace contents-only="true">
+                        <con2:id>_ActionId-a1e1583.4eae48e8.0.15cb183f76f.N7e0e</con2:id>
+                        <con2:disabled>true</con2:disabled>
+                    </con4:replace>
+                    <con1:log>
+                        <con2:id>_ActionId-a1e1583.4eae48e8.0.15cb183f76f.N7da9</con2:id>
+                        <con2:disabled>true</con2:disabled>
+                        <con1:logLevel>warning</con1:logLevel>
+                        <con1:expr>
+                            <con2:xqueryText>$inbound</con2:xqueryText>
+                        </con1:expr>
+                    </con1:log>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:pipeline type="response" name="response-a1e1587.148eaff2.0.15cad60358e.N7d21">
+            <con:stage id="_StageId-a1e1587.148eaff2.0.15cad60358e.N7d1f" name="Response">
+                <con:context/>
+                <con:actions/>
+            </con:stage>
+        </con:pipeline>
+        <con:flow>
+            <con:pipeline-node name="Pipeline Pair Node1">
+                <con:request>request-a1e1587.148eaff2.0.15cad60358e.N7d22</con:request>
+                <con:response>response-a1e1587.148eaff2.0.15cad60358e.N7d21</con:response>
+            </con:pipeline-node>
+            <con:route-node name="RouteNode1">
+                <con:context/>
+                <con:actions>
+                    <con3:route>
+                        <con2:id>_ActionId-a1e1584.211120e8.0.15d19b3e06a.N7e5e</con2:id>
+                        <con3:service ref="Sftp/Service/PS/SftpServer" xsi:type="ref:ProxyRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                        <con3:outboundTransform>
+                            <con4:transport-headers>
+                                <con2:id>_ActionId-a1e1584.211120e8.0.15d19b3e06a.N7e5b</con2:id>
+                                <con4:header-set>outbound-request</con4:header-set>
+                                <con4:header value="expression" name="fileName">
+                                    <con2:xqueryText>"/SftpReadLocation/res.pdf"</con2:xqueryText>
+                                </con4:header>
+                            </con4:transport-headers>
+                            <con4:routing-options>
+                                <con2:id>_ActionId-a1e1584.211120e8.0.15d19b3e06a.N7e55</con2:id>
+                                <con4:mode>request</con4:mode>
+                                <con4:qualityOfService>exactly-once</con4:qualityOfService>
+                            </con4:routing-options>
+                        </con3:outboundTransform>
+                        <con3:responseTransform>
+                            <con4:delete varName="body">
+                                <con2:id>_ActionId-N56012418.6f776dcc.0.15da0bf2794.N7f5f</con2:id>
+                            </con4:delete>
+                        </con3:responseTransform>
+                    </con3:route>
+                </con:actions>
+            </con:route-node>
+        </con:flow>
+    </con:router>
+</con:pipelineEntry>

@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:pipelineEntry xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con2="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con3="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con4="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con5="http://www.bea.com/wli/sb/stages/routing/config">
+    <con:coreEntry>
+        <con:binding type="SOAP" isSoap12="false" xsi:type="con:SoapBindingType">
+            <con:wsdl ref="BssParseOfferFile/Resources/JCA/Get/GetFileXmlIn-concrete"/>
+            <con:binding>
+                <con:name>GetFileXmlIn_ptt-binding</con:name>
+                <con:namespace>http://xmlns.oracle.com/pcbpel/adapter/ftp/AppServiceBus/BssParseOfferFile/GetFileXmlIn</con:namespace>
+            </con:binding>
+        </con:binding>
+        <con:xqConfiguration>
+            <con:snippetVersion>1.0</con:snippetVersion>
+        </con:xqConfiguration>
+    </con:coreEntry>
+    <con:router errorHandler="error-N3f57c7ff.68061bc1.0.15e38c47aeb.N6e7f">
+        <con:pipeline type="request" name="request-N3f57c7ff.68061bc1.0.15e38c47aeb.N71bd" errorHandler="error-N3f57c7ff.68061bc1.0.15e38c47aeb.N6abe">
+            <con:stage id="_StageId-N3f57c7ff.68061bc1.0.15e38c47aeb.N71bb" name="GetDataFileXmlStage">
+                <con:context>
+                    <con1:userNsDecl prefix="opaq" namespace="http://xmlns.oracle.com/pcbpel/adapter/opaque/"/>
+                </con:context>
+                <con:actions>
+                    <con4:assign varName="GetDataFileXml" xmlns:con1="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con5="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con3="http://www.bea.com/wli/sb/stages/routing/config">
+                        <con2:id>_ActionId-N3f57c7ff.68061bc1.0.15e38c47aeb.N7152</con2:id>
+                        <con4:expr>
+                            <con2:xqueryText>$body/opaq:opaqueElement</con2:xqueryText>
+                        </con4:expr>
+                    </con4:assign>
+                    <con4:assign varName="nameFileCsv" xmlns:con1="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con5="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con3="http://www.bea.com/wli/sb/stages/routing/config">
+                        <con2:id>_ActionId-N3f57c7ff.68061bc1.0.15e38c47aeb.N7186</con2:id>
+                        <con4:expr>
+                            <con2:xqueryText>fn:replace(fn:data($inbound/ctx:transport/ctx:request/tp:headers/jca:jca.ftp.FileName),'.xml', '')</con2:xqueryText>
+                        </con4:expr>
+                    </con4:assign>
+                    <con3:route>
+                        <con1:id>_ActionId-N3f57c7ff.68061bc1.0.15e38c47aeb.N7151</con1:id>
+                        <con3:service ref="BssParseOfferFile/Service/BS/PutFileCsv" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                        <con3:operation>PutFileCsv</con3:operation>
+                        <con3:outboundTransform>
+                            <con4:transport-headers copy-all="false" xmlns:con1="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con5="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con3="http://www.bea.com/wli/sb/stages/routing/config">
+                                <con2:id>_ActionId-N3f57c7ff.68061bc1.0.15e38c47aeb.N7117</con2:id>
+                                <con4:header-set>outbound-request</con4:header-set>
+                                <con4:header value="expression" name="jca.ftp.FileName">
+                                    <con2:xqueryText>fn:concat($nameFileCsv, '.PROC')</con2:xqueryText>
+                                </con4:header>
+                            </con4:transport-headers>
+                        </con3:outboundTransform>
+                    </con3:route>
+                </con:actions>
+            </con:stage>
+            <con:stage id="_StageId-N3f57c7ff.68061bc1.0.15e38c47aeb.N6faf" name="ProcesingXmlInStage" xmlns:con1="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con5="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con3="http://www.bea.com/wli/sb/stages/routing/config">
+                <con:context>
+                    <con2:userNsDecl prefix="opaq" namespace="http://xmlns.oracle.com/pcbpel/adapter/opaque/"/>
+                </con:context>
+                <con:actions>
+                    <con4:javaCallout varName="GetXmlBinary" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con2="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con3="http://www.bea.com/wli/sb/stages/publish/config">
+                        <con1:id xmlns:con6="http://www.bea.com/wli/sb/stages/config">_ActionId-N3f57c7ff.68061bc1.0.15e38c47aeb.N7019</con1:id>
+                        <con4:archive ref="BssParseOfferFile/Resources/jar/Base64-1.0.0"/>
+                        <con4:className>nl.alliander.osb.base64.Base64EncoderDecoder</con4:className>
+                        <con4:method>public static [B decode(java.lang.String)</con4:method>
+                        <con4:expr>
+                            <con1:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">fn:string($body/opaq:opaqueElement)</con1:xqueryText>
+                        </con4:expr>
+                        <con4:return-param-as-ref>false</con4:return-param-as-ref>
+                    </con4:javaCallout>
+                    <con4:assign varName="resultProcesingXml">
+                        <con2:id>_ActionId-N3f57c7ff.68061bc1.0.15e38c47aeb.N6fae</con2:id>
+                        <con4:expr>
+                            <con2:xqueryTransform>
+                                <con2:resource ref="BssParseOfferFile/Resources/XQuery/ProcesingXmlIn"/>
+                                <con2:param name="Offering">
+                                    <con2:path>fn-bea:binary-to-xml($GetXmlBinary)</con2:path>
+                                </con2:param>
+                            </con2:xqueryTransform>
+                        </con4:expr>
+                    </con4:assign>
+                </con:actions>
+            </con:stage>
+            <con:stage id="_StageId-N3f57c7ff.68061bc1.0.15e38c47aeb.N6cb1" name="IndexXmlStage" xmlns:con1="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con5="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con3="http://www.bea.com/wli/sb/stages/routing/config">
+                <con:context>
+                    <con2:userNsDecl prefix="ns1" namespace="http://claro.com.ec/osb/message/Bss/ParseOfferFile/ParseOfferFileMessage/v1"/>
+                </con:context>
+                <con:actions>
+                    <con4:ifThenElse>
+                        <con2:id>_ActionId-N3f57c7ff.68061bc1.0.15e38c47aeb.N6cb0</con2:id>
+                        <con4:case id="_BranchId-N3f57c7ff.68061bc1.0.15e38c47aeb.N6caf">
+                            <con4:condition>
+                                <con2:xqueryText>fn:exists($resultProcesingXml/ns1:PricePlanList/ns1:PricePlan)</con2:xqueryText>
+                            </con4:condition>
+                            <con4:actions>
+                                <con4:foreach>
+                                    <con2:id>_ActionId-N3f57c7ff.68061bc1.0.15e38c47aeb.N6cae</con2:id>
+                                    <con4:variable>resultProcesingXml</con4:variable>
+                                    <con4:expression>
+                                        <con2:xpathText>$resultProcesingXml/ns1:PricePlanList/ns1:PricePlan</con2:xpathText>
+                                    </con4:expression>
+                                    <con4:value-variable>PricePlan</con4:value-variable>
+                                    <con4:index-variable>IndexPricePlan</con4:index-variable>
+                                    <con4:total-variable>CountPricePlan</con4:total-variable>
+                                    <con4:actions>
+                                        <con4:ifThenElse>
+                                            <con2:id>_ActionId-N3f57c7ff.68061bc1.0.15e38c47aeb.N6cad</con2:id>
+                                            <con4:case id="_BranchId-N3f57c7ff.68061bc1.0.15e38c47aeb.N6cac">
+                                                <con4:condition>
+                                                    <con2:xqueryText>fn:number($CountPricePlan) != 0</con2:xqueryText>
+                                                </con4:condition>
+                                                <con4:actions>
+                                                    <con4:assign varName="resulPricePlan">
+                                                        <con2:id>_ActionId-N3f57c7ff.68061bc1.0.15e38c47aeb.N6cab</con2:id>
+                                                        <con4:expr>
+                                                            <con2:xqueryText>$PricePlan</con2:xqueryText>
+                                                        </con4:expr>
+                                                    </con4:assign>
+                                                    <con4:ifThenElse>
+                                                        <con2:id>_ActionId-N3f57c7ff.68061bc1.0.15e38c47aeb.N6caa</con2:id>
+                                                        <con4:case id="_BranchId-N3f57c7ff.68061bc1.0.15e38c47aeb.N6ca9">
+                                                            <con4:condition>
+                                                                <con2:xqueryText>fn:exists($PricePlan/ns1:PolicyList/ns1:Policy)</con2:xqueryText>
+                                                            </con4:condition>
+                                                            <con4:actions>
+                                                                <con4:foreach>
+                                                                    <con2:id>_ActionId-N3f57c7ff.68061bc1.0.15e38c47aeb.N6ca8</con2:id>
+                                                                    <con4:variable>resultProcesingXml</con4:variable>
+                                                                    <con4:expression>
+                                                                        <con2:xpathText>$PricePlan/ns1:PolicyList/ns1:Policy</con2:xpathText>
+                                                                    </con4:expression>
+                                                                    <con4:value-variable>Policy</con4:value-variable>
+                                                                    <con4:index-variable>IndexPolicy</con4:index-variable>
+                                                                    <con4:total-variable>CountPolicy</con4:total-variable>
+                                                                    <con4:actions>
+                                                                        <con4:ifThenElse>
+                                                                            <con2:id>_ActionId-N3f57c7ff.68061bc1.0.15e38c47aeb.N6ca7</con2:id>
+                                                                            <con4:case id="_BranchId-N3f57c7ff.68061bc1.0.15e38c47aeb.N6ca6">
+                                                                                <con4:condition>
+                                                                                    <con2:xqueryText>fn:number($CountPolicy) != 0</con2:xqueryText>
+                                                                                </con4:condition>
+                                                                                <con4:actions>
+                                                                                    <con4:assign varName="resulPolicy">
+                                                                                        <con2:id>_ActionId-N3f57c7ff.68061bc1.0.15e38c47aeb.N6ca5</con2:id>
+                                                                                        <con4:expr>
+                                                                                            <con2:xqueryText>$Policy[1]</con2:xqueryText>
+                                                                                        </con4:expr>
+                                                                                    </con4:assign>
+                                                                                    <con4:ifThenElse>
+                                                                                        <con2:id>_ActionId-N3f57c7ff.68061bc1.0.15e38c47aeb.N6ca4</con2:id>
+                                                                                        <con4:case id="_BranchId-N3f57c7ff.68061bc1.0.15e38c47aeb.N6ca3">
+                                                                                            <con4:condition>
+                                                                                                <con2:xqueryText>fn:exists($Policy/ns1:ActionList/ns1:Action)</con2:xqueryText>
+                                                                                            </con4:condition>
+                                                                                            <con4:actions>
+                                                                                                <con4:foreach>
+                                                                                                    <con2:id>_ActionId-N3f57c7ff.68061bc1.0.15e38c47aeb.N6ca2</con2:id>
+                                                                                                    <con4:variable>resultProcesingXml</con4:variable>
+                                                                                                    <con4:expression>
+                                                                                                        <con2:xpathText>$Policy/ns1:ActionList/ns1:Action</con2:xpathText>
+                                                                                                    </con4:expression>
+                                                                                                    <con4:value-variable>Action</con4:value-variable>
+                                                                                                    <con4:index-variable>IndexAction</con4:index-variable>
+                                                                                                    <con4:total-variable>CountAction</con4:total-variable>
+                                                                                                    <con4:actions>
+                                                                                                        <con4:assign varName="resulAction">
+                                                                                                            <con2:id>_ActionId-N3f57c7ff.68061bc1.0.15e38c47aeb.N6ca1</con2:id>
+                                                                                                            <con4:expr>
+                                                                                                                <con2:xqueryText>$Action</con2:xqueryText>
+                                                                                                            </con4:expr>
+                                                                                                        </con4:assign>
+                                                                                                        <con4:ifThenElse>
+                                                                                                            <con2:id>_ActionId-N3f57c7ff.68061bc1.0.15e38c47aeb.N6ca0</con2:id>
+                                                                                                            <con4:case id="_BranchId-N3f57c7ff.68061bc1.0.15e38c47aeb.N6c9f">
+                                                                                                                <con4:condition>
+                                                                                                                    <con2:xqueryText>fn:exists($Action/ns1:FreeUnitBonusAction/ns1:FreeUnitTypeId)
+or
+fn:exists($Action/ns1:BalanceBonusAction/ns1:AccountBalanceType)</con2:xqueryText>
+                                                                                                                </con4:condition>
+                                                                                                                <con4:actions>
+                                                                                                                    <con4:insert varName="resultProcesingXml">
+                                                                                                                        <con2:id>_ActionId-N3f57c7ff.68061bc1.0.15e38c47aeb.N6c9e</con2:id>
+                                                                                                                        <con4:location>
+                                                                                                                            <con2:xpathText>$resultProcesingXml/ns1:Offerings</con2:xpathText>
+                                                                                                                        </con4:location>
+                                                                                                                        <con4:where>first-child</con4:where>
+                                                                                                                        <con4:expr>
+                                                                                                                            <con2:xqueryTransform>
+                                                                                                                                <con2:resource ref="BssParseOfferFile/Resources/XQuery/XmlToCsv"/>
+                                                                                                                                <con2:param name="policyId">
+                                                                                                                                    <con2:path>fn:data($body/Offering/PricePlanList/PricePlan[$IndexPricePlan]/PolicyList/Policy[$IndexPolicy]/Id)</con2:path>
+                                                                                                                                </con2:param>
+                                                                                                                                <con2:param name="OfferingRequest">
+                                                                                                                                    <con2:path>$resultProcesingXml</con2:path>
+                                                                                                                                </con2:param>
+                                                                                                                                <con2:param name="action">
+                                                                                                                                    <con2:path>$resultProcesingXml/ns1:PricePlanList/ns1:PricePlan[$IndexPricePlan]/ns1:PolicyList/ns1:Policy[$IndexPolicy]/ns1:ActionList/ns1:Action[$IndexAction]</con2:path>
+                                                                                                                                </con2:param>
+                                                                                                                                <con2:param name="pricePlanId">
+                                                                                                                                    <con2:path>fn:data($body/Offering/PricePlanList/PricePlan[$IndexPricePlan]/Id)</con2:path>
+                                                                                                                                </con2:param>
+                                                                                                                            </con2:xqueryTransform>
+                                                                                                                        </con4:expr>
+                                                                                                                    </con4:insert>
+                                                                                                                    <con4:assign varName="OUT">
+                                                                                                                        <con2:id>_ActionId-N3f57c7ff.68061bc1.0.15e38c47aeb.N6c9d</con2:id>
+                                                                                                                        <con2:disabled>true</con2:disabled>
+                                                                                                                        <con4:expr>
+                                                                                                                            <con2:xqueryTransform>
+                                                                                                                                <con2:resource ref="BssParseOfferFile/Resources/XQuery/XmlToCsv"/>
+                                                                                                                                <con2:param name="policyId">
+                                                                                                                                    <con2:path>fn:data($body/Offering/PricePlanList/PricePlan[$IndexPricePlan]/PolicyList/Policy[$IndexPolicy]/Id)</con2:path>
+                                                                                                                                </con2:param>
+                                                                                                                                <con2:param name="OfferingRequest">
+                                                                                                                                    <con2:path>$resultProcesingXml</con2:path>
+                                                                                                                                </con2:param>
+                                                                                                                                <con2:param name="action">
+                                                                                                                                    <con2:path>$resultProcesingXml/ns1:PricePlanList/ns1:PricePlan[$IndexPricePlan]/ns1:PolicyList/ns1:Policy[$IndexPolicy]/ns1:ActionList/ns1:Action[$IndexAction]</con2:path>
+                                                                                                                                </con2:param>
+                                                                                                                                <con2:param name="pricePlanId">
+                                                                                                                                    <con2:path>fn:data($body/Offering/PricePlanList/PricePlan[$IndexPricePlan]/Id)</con2:path>
+                                                                                                                                </con2:param>
+                                                                                                                            </con2:xqueryTransform>
+                                                                                                                        </con4:expr>
+                                                                                                                    </con4:assign>
+                                                                                                                </con4:actions>
+                                                                                                            </con4:case>
+                                                                                                            <con4:default/>
+                                                                                                        </con4:ifThenElse>
+                                                                                                    </con4:actions>
+                                                                                                </con4:foreach>
+                                                                                            </con4:actions>
+                                                                                        </con4:case>
+                                                                                        <con4:default>
+                                                                                            <con4:insert varName="resultProcesingXml">
+                                                                                                <con2:id>_ActionId-N3f57c7ff.68061bc1.0.15e38c47aeb.N6c9c</con2:id>
+                                                                                                <con4:location>
+                                                                                                    <con2:xpathText>$resultProcesingXml/ns1:Offerings</con2:xpathText>
+                                                                                                </con4:location>
+                                                                                                <con4:where>first-child</con4:where>
+                                                                                                <con4:expr>
+                                                                                                    <con2:xqueryTransform>
+                                                                                                        <con2:resource ref="BssParseOfferFile/Resources/XQuery/XmlToCsv"/>
+                                                                                                        <con2:param name="policyId">
+                                                                                                            <con2:path>fn:data($body/Offering/PricePlanList/PricePlan[$IndexPricePlan]/PolicyList/Policy[$IndexPolicy]/Id)</con2:path>
+                                                                                                        </con2:param>
+                                                                                                        <con2:param name="OfferingRequest">
+                                                                                                            <con2:path>$resultProcesingXml</con2:path>
+                                                                                                        </con2:param>
+                                                                                                        <con2:param name="action">
+                                                                                                            <con2:path>()</con2:path>
+                                                                                                        </con2:param>
+                                                                                                        <con2:param name="pricePlanId">
+                                                                                                            <con2:path>fn:data($body/Offering/PricePlanList/PricePlan[$IndexPricePlan]/Id)</con2:path>
+                                                                                                        </con2:param>
+                                                                                                    </con2:xqueryTransform>
+                                                                                                </con4:expr>
+                                                                                            </con4:insert>
+                                                                                        </con4:default>
+                                                                                    </con4:ifThenElse>
+                                                                                </con4:actions>
+                                                                            </con4:case>
+                                                                            <con4:default/>
+                                                                        </con4:ifThenElse>
+                                                                    </con4:actions>
+                                                                </con4:foreach>
+                                                            </con4:actions>
+                                                        </con4:case>
+                                                        <con4:default>
+                                                            <con4:insert varName="resultProcesingXml">
+                                                                <con2:id>_ActionId-N3f57c7ff.68061bc1.0.15e38c47aeb.N6c9b</con2:id>
+                                                                <con4:location>
+                                                                    <con2:xpathText>$resultProcesingXml/ns1:Offerings</con2:xpathText>
+                                                                </con4:location>
+                                                                <con4:where>first-child</con4:where>
+                                                                <con4:expr>
+                                                                    <con2:xqueryTransform>
+                                                                        <con2:resource ref="BssParseOfferFile/Resources/XQuery/XmlToCsv"/>
+                                                                        <con2:param name="policyId">
+                                                                            <con2:path>fn:string('')</con2:path>
+                                                                        </con2:param>
+                                                                        <con2:param name="OfferingRequest">
+                                                                            <con2:path>$resultProcesingXml</con2:path>
+                                                                        </con2:param>
+                                                                        <con2:param name="action">
+                                                                            <con2:path>$resultProcesingXml/ns1:PricePlanList/ns1:PricePlan[$IndexPricePlan]/ns1:PolicyList/ns1:Policy[$IndexPolicy]/ns1:ActionList/ns1:Action[$IndexAction]</con2:path>
+                                                                        </con2:param>
+                                                                        <con2:param name="pricePlanId">
+                                                                            <con2:path>fn:data($body/Offering/PricePlanList/PricePlan[$IndexPricePlan]/Id)</con2:path>
+                                                                        </con2:param>
+                                                                    </con2:xqueryTransform>
+                                                                </con4:expr>
+                                                            </con4:insert>
+                                                        </con4:default>
+                                                    </con4:ifThenElse>
+                                                </con4:actions>
+                                            </con4:case>
+                                            <con4:default/>
+                                        </con4:ifThenElse>
+                                    </con4:actions>
+                                </con4:foreach>
+                            </con4:actions>
+                        </con4:case>
+                        <con4:default>
+                            <con4:insert varName="resultProcesingXml">
+                                <con2:id>_ActionId-N3f57c7ff.68061bc1.0.15e38c47aeb.N6c9a</con2:id>
+                                <con4:location>
+                                    <con2:xpathText>$resultProcesingXml/ns1:Offerings</con2:xpathText>
+                                </con4:location>
+                                <con4:where>first-child</con4:where>
+                                <con4:expr>
+                                    <con2:xqueryTransform>
+                                        <con2:resource ref="BssParseOfferFile/Resources/XQuery/XmlToCsv"/>
+                                        <con2:param name="policyId">
+                                            <con2:path>fn:string('')</con2:path>
+                                        </con2:param>
+                                        <con2:param name="OfferingRequest">
+                                            <con2:path>$resultProcesingXml</con2:path>
+                                        </con2:param>
+                                        <con2:param name="action">
+                                            <con2:path>$resultProcesingXml/ns1:PricePlanList/ns1:PricePlan[$IndexPricePlan]/ns1:PolicyList/ns1:Policy[$IndexPolicy]/ns1:ActionList/ns1:Action[$IndexAction]</con2:path>
+                                        </con2:param>
+                                        <con2:param name="pricePlanId">
+                                            <con2:path>fn:string('')</con2:path>
+                                        </con2:param>
+                                    </con2:xqueryTransform>
+                                </con4:expr>
+                            </con4:insert>
+                        </con4:default>
+                    </con4:ifThenElse>
+                </con:actions>
+            </con:stage>
+            <con:stage id="_StageId-N3f57c7ff.68061bc1.0.15e38c47aeb.N6c1a" name="TransformXmlToNoXmlStage" xmlns:con1="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con5="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con3="http://www.bea.com/wli/sb/stages/routing/config">
+                <con:context>
+                    <con2:userNsDecl prefix="ns1" namespace="http://claro.com.ec/osb/message/Bss/ParseOfferFile/ParseOfferFileMessage/v1"/>
+                </con:context>
+                <con:actions>
+                    <con4:mflTransform>
+                        <con2:id>_ActionId-N3f57c7ff.68061bc1.0.15e38c47aeb.N6c19</con2:id>
+                        <con4:type>XML-To-nonXML</con4:type>
+                        <con4:sourceExpr>
+                            <con2:xqueryText>$resultProcesingXml/ns1:Offerings</con2:xqueryText>
+                        </con4:sourceExpr>
+                        <con4:mfl-resource ref="BssParseOfferFile/Resources/MFL/OfferingsMFL"/>
+                        <con4:assign-variable>fileOfferBinary</con4:assign-variable>
+                    </con4:mflTransform>
+                    <con4:javaCallout varName="outFileCsv">
+                        <con2:id>_ActionId-N3f57c7ff.68061bc1.0.15e38c47aeb.N6c18</con2:id>
+                        <con4:archive ref="BssParseOfferFile/Resources/jar/Base64-1.0.0"/>
+                        <con4:className>nl.alliander.osb.base64.Base64EncoderDecoder</con4:className>
+                        <con4:method>public static java.lang.String encode([B)</con4:method>
+                        <con4:expr>
+                            <con2:xqueryText>$fileOfferBinary</con2:xqueryText>
+                        </con4:expr>
+                        <con4:return-param-as-ref>false</con4:return-param-as-ref>
+                    </con4:javaCallout>
+                    <con6:log xmlns:con6="http://www.bea.com/wli/sb/stages/logging/config">
+                        <con2:id>_ActionId-N3f57c7ff.68061bc1.0.15e38c47aeb.N6bfc</con2:id>
+                        <con6:logLevel>warning</con6:logLevel>
+                        <con6:expr>
+                            <con2:xqueryText>$outFileCsv</con2:xqueryText>
+                        </con6:expr>
+                    </con6:log>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:pipeline type="response" name="response-N3f57c7ff.68061bc1.0.15e38c47aeb.N71bc"/>
+        <con:pipeline type="error" name="error-N3f57c7ff.68061bc1.0.15e38c47aeb.N6e7f">
+            <con:stage id="_StageId-N3f57c7ff.68061bc1.0.15e38c47aeb.N6e7e" name="Stage1">
+                <con:context/>
+                <con:actions>
+                    <con1:reply>
+                        <con1:id>_ActionId-N3f57c7ff.68061bc1.0.15e38c47aeb.N6b92</con1:id>
+                    </con1:reply>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:pipeline type="error" name="error-N3f57c7ff.68061bc1.0.15e38c47aeb.N6abe">
+            <con:stage id="_StageId-N3f57c7ff.68061bc1.0.15e38c47aeb.N6abd" name="Stage1">
+                <con:context/>
+                <con:actions>
+                    <con1:reply>
+                        <con1:id>_ActionId-N3f57c7ff.68061bc1.0.15e38c47aeb.N6aba</con1:id>
+                    </con1:reply>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:flow>
+            <con:pipeline-node name="Pipeline Pair Node1">
+                <con:request>request-N3f57c7ff.68061bc1.0.15e38c47aeb.N71bd</con:request>
+                <con:response>response-N3f57c7ff.68061bc1.0.15e38c47aeb.N71bc</con:response>
+            </con:pipeline-node>
+            <con:route-node name="SftpPontisPutRouteNode">
+                <con:context/>
+                <con:actions>
+                    <con5:route>
+                        <con1:id>_ActionId-N3f57c7ff.68061bc1.0.15e38c47aeb.N6b5c</con1:id>
+                        <con5:service ref="BssParseOfferFile/Service/BS/PutFileCsv" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                        <con5:operation>PutFileCsv</con5:operation>
+                        <con5:outboundTransform>
+                            <con4:transport-headers copy-all="false" xmlns:con1="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con5="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con3="http://www.bea.com/wli/sb/stages/routing/config">
+                                <con2:id>_ActionId-N3f57c7ff.68061bc1.0.15e38c47aeb.N6b28</con2:id>
+                                <con4:header-set>outbound-request</con4:header-set>
+                                <con4:header value="expression" name="jca.ftp.FileName">
+                                    <con2:xqueryText>fn:concat($nameFileCsv, '.csv')</con2:xqueryText>
+                                </con4:header>
+                            </con4:transport-headers>
+                            <con4:replace varName="body" xmlns:con1="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con5="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con3="http://www.bea.com/wli/sb/stages/routing/config">
+                                <con2:id>_ActionId-N3f57c7ff.68061bc1.0.15e38c47aeb.N6af4</con2:id>
+                                <con4:location>
+                                    <con2:xpathText>./*</con2:xpathText>
+                                </con4:location>
+                                <con4:expr>
+                                    <con2:xqueryText>&lt;opaq:opaqueElement xmlns:opaq="http://xmlns.oracle.com/pcbpel/adapter/opaque/">{$outFileCsv}&lt;/opaq:opaqueElement></con2:xqueryText>
+                                </con4:expr>
+                            </con4:replace>
+                        </con5:outboundTransform>
+                        <con5:responseTransform>
+                            <con4:delete varName="body">
+                                <con1:id>_ActionId-N3f57c7ff.68061bc1.0.15e38c47aeb.N6af0</con1:id>
+                                <con4:location>
+                                    <con1:xpathText>./*</con1:xpathText>
+                                </con4:location>
+                            </con4:delete>
+                        </con5:responseTransform>
+                    </con5:route>
+                </con:actions>
+            </con:route-node>
+        </con:flow>
+    </con:router>
+</con:pipelineEntry>

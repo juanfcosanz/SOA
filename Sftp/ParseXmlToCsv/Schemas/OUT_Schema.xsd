@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.example2.org"
+            targetNamespace="http://www.example2.org" elementFormDefault="qualified">
+  <xsd:element name="Offerings">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="Offering" minOccurs="1" type="tns:Offering" maxOccurs="unbounded"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:complexType name="Offering">
+    <xsd:sequence>
+      <xsd:element name="OfferId" minOccurs="0" type="xsd:string"/>
+      <xsd:element name="ActivationId" minOccurs="0" type="xsd:string"/>
+      <xsd:element name="Name" minOccurs="0" type="xsd:string"/>
+      <xsd:element name="Description" minOccurs="0" type="xsd:string"/>
+      <xsd:element name="EffDate" minOccurs="0" type="xsd:string"/>
+      <xsd:element name="ExpDate" minOccurs="0" type="xsd:string"/>
+      <xsd:element name="PaymentMode" minOccurs="0" type="xsd:string"/>
+      <xsd:element name="Brand" minOccurs="0" type="xsd:string" default="CLARO"/>
+      <xsd:element name="PricePlanList" minOccurs="1" type="tns:PricePlanList" maxOccurs="1"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="PricePlanList">
+    <xsd:sequence>
+      <xsd:element name="PricePlan" type="tns:PricePlan" minOccurs="0" maxOccurs="1"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="PricePlan">
+    <xsd:sequence>
+      <xsd:element name="Id" minOccurs="0" type="xsd:string"/>
+      <xsd:element name="PolicyList" minOccurs="0">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" ref="tns:Policy"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="Policy">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="Id" minOccurs="0" type="xsd:string"/>
+        <xsd:element name="ActionList" minOccurs="0" maxOccurs="1" type="tns:ActionList"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:complexType name="ActionList">
+    <xsd:sequence>
+      <xsd:element name="Action" type="tns:Action" minOccurs="0" maxOccurs="1"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="Action">
+    <xsd:sequence>
+      <xsd:element name="FreeUnitBonusAction" type="tns:FreeUnitBonusAction" minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="BalanceBonusAction" type="tns:BalanceBonusAction" minOccurs="0" maxOccurs="1"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="FreeUnitBonusAction">
+    <xsd:sequence>
+      <xsd:element name="FreeUnitTypeId" minOccurs="0" type="xsd:string"/>
+      <xsd:element name="BonusAmount" minOccurs="0" type="xsd:string"/>
+      <xsd:element name="BonusAmountMeasurement" minOccurs="0" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="BalanceBonusAction">
+    <xsd:sequence>
+      <xsd:element name="AccountBalanceType" minOccurs="0" type="xsd:string"/>
+      <xsd:element name="BonusAmount" minOccurs="0" type="xsd:string"/>
+      <xsd:element name="BonusAmountMeasurement" minOccurs="0" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

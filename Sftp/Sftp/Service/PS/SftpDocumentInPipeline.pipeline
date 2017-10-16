@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:pipelineEntry xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con2="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con4="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con5="http://www.bea.com/wli/sb/stages/publish/config">
+    <con:coreEntry>
+        <con:binding type="SOAP" isSoap12="true" xsi:type="con:SoapBindingType">
+            <con:wsdl ref="Sftp/Resources/SftpDocumentV1"/>
+            <con:binding>
+                <con:name>DocumentSoap12Binding</con:name>
+                <con:namespace>http://claro.com.ec/osb/Bss/Document/Document/v1</con:namespace>
+            </con:binding>
+        </con:binding>
+        <con:xopMtom isEnabled="true">
+            <con:xopBinary>ByValue</con:xopBinary>
+        </con:xopMtom>
+        <con:xqConfiguration>
+            <con:snippetVersion>1.0</con:snippetVersion>
+        </con:xqConfiguration>
+    </con:coreEntry>
+    <con:router>
+        <con:pipeline type="request" name="request-a1e1588.374323d5.0.15c8881fa42.N7a54">
+            <con:stage id="_StageId-a1e1588.374323d5.0.15c8881fa42.N7a17" name="Request" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con4="http://www.bea.com/wli/sb/stages/alert/config" xmlns:con5="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con3="http://www.bea.com/wli/sb/stages/routing/config">
+                <con:context>
+                    <con2:userNsDecl prefix="v1" namespace="http://claro.com.ec/osb/Bss/message/DocumentMessage/v1"/>
+                </con:context>
+                <con:actions>
+                    <con6:foreach xmlns:con6="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con2:id>_ActionId-a1e1587.4f89bdf7.0.15ca796d3e9.N7d37</con2:id>
+                        <con6:variable>body</con6:variable>
+                        <con6:expression>
+                            <con2:xpathText>./v1:documentRequest/AttachmentList/Attachment</con2:xpathText>
+                        </con6:expression>
+                        <con6:value-variable>File</con6:value-variable>
+                        <con6:index-variable>Index</con6:index-variable>
+                        <con6:total-variable>Count</con6:total-variable>
+                        <con6:actions>
+                            <con6:assign varName="binary">
+                                <con2:id>_ActionId-a1e1587.4f89bdf7.0.15ca796d3e9.N7d33</con2:id>
+                                <con6:expr>
+                                    <con2:xqueryText>fn:data($body/v1:documentRequest/AttachmentList/Attachment[$Index]/Data)</con2:xqueryText>
+                                </con6:expr>
+                            </con6:assign>
+                            <con6:javaCallout varName="binaryFile">
+                                <con2:id>_ActionId-N56012418.6f776dcc.0.15da0bf2794.N7ffe</con2:id>
+                                <con6:archive ref="Sftp/jar/Base64-1.0.0"/>
+                                <con6:className>nl.alliander.osb.base64.Base64EncoderDecoder</con6:className>
+                                <con6:method>public static [B decode(java.lang.String)</con6:method>
+                                <con6:expr>
+                                    <con2:xqueryText>$binary</con2:xqueryText>
+                                </con6:expr>
+                                <con6:return-param-as-ref>false</con6:return-param-as-ref>
+                            </con6:javaCallout>
+                            <con5:log>
+                                <con2:id>_ActionId-a1e1587.4f89bdf7.0.15ca796d3e9.N7ccd</con2:id>
+                                <con2:disabled>true</con2:disabled>
+                                <con5:logLevel>warning</con5:logLevel>
+                                <con5:expr>
+                                    <con2:xqueryText>fn:data($body/v1:documentRequest/AttachmentList/Attachment[$Index]/Data)</con2:xqueryText>
+                                </con5:expr>
+                            </con5:log>
+                            <con5:log>
+                                <con2:id>_ActionId-a1e1588.374323d5.0.15c8881fa42.N7a14</con2:id>
+                                <con5:logLevel>warning</con5:logLevel>
+                                <con5:expr>
+                                    <con2:xqueryText>$binaryFile</con2:xqueryText>
+                                </con5:expr>
+                                <con5:message>binaryFile:</con5:message>
+                            </con5:log>
+                            <con7:route xmlns:con7="http://www.bea.com/wli/sb/stages/publish/config">
+                                <con2:id>_ActionId-a1e1587.148eaff2.0.15cad60358e.N7d8e</con2:id>
+                                <con7:service ref="Sftp/Service/BS/SftpOutBS" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                                <con7:outboundTransform>
+                                    <con6:transport-headers copy-all="true">
+                                        <con2:id>_ActionId-a1e1587.148eaff2.0.15cad60358e.N7e02</con2:id>
+                                        <con6:header-set>outbound-request</con6:header-set>
+                                        <con6:header value="expression" name="fileName">
+                                            <con2:xqueryText>fn:concat(xs:string($body/v1:documentRequest/AttachmentList/Attachment[$Index]/Filename),'.',xs:string($body/v1:documentRequest/AttachmentList/Attachment[$Index]/FileType))</con2:xqueryText>
+                                        </con6:header>
+                                    </con6:transport-headers>
+                                    <con6:replace varName="body" contents-only="true">
+                                        <con2:id>_ActionId-a1e1587.148eaff2.0.15cad60358e.N7dff</con2:id>
+                                        <con6:location>
+                                            <con2:xpathText>.</con2:xpathText>
+                                        </con6:location>
+                                        <con6:expr>
+                                            <con2:xqueryText>$binaryFile</con2:xqueryText>
+                                        </con6:expr>
+                                    </con6:replace>
+                                    <con5:log>
+                                        <con2:id>_ActionId-a1e1587.148eaff2.0.15cad60358e.N7e05</con2:id>
+                                        <con5:logLevel>warning</con5:logLevel>
+                                        <con5:expr>
+                                            <con2:xqueryText>$outbound</con2:xqueryText>
+                                        </con5:expr>
+                                    </con5:log>
+                                    <con6:routing-options>
+                                        <con2:id>_ActionId-a1e1587.148eaff2.0.15cad60358e.N7d23</con2:id>
+                                        <con6:mode>request</con6:mode>
+                                        <con6:qualityOfService>exactly-once</con6:qualityOfService>
+                                        <con6:retryInterval>0</con6:retryInterval>
+                                        <con6:retryCount>0</con6:retryCount>
+                                    </con6:routing-options>
+                                </con7:outboundTransform>
+                            </con7:route>
+                        </con6:actions>
+                    </con6:foreach>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:pipeline type="response" name="response-a1e1588.374323d5.0.15c8881fa42.N7a53">
+            <con:stage id="_StageId-a1e1588.374323d5.0.15c8881fa42.N797c" name="Response" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con4="http://www.bea.com/wli/sb/stages/alert/config" xmlns:con5="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con3="http://www.bea.com/wli/sb/stages/routing/config">
+                <con:context>
+                    <con2:userNsDecl prefix="v1" namespace="http://claro.com.ec/osb/Bss/message/DocumentMessage/v1"/>
+                </con:context>
+                <con:actions>
+                    <con1:replace varName="body" contents-only="true" xmlns:con6="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con2:id>_ActionId-a1e1588.374323d5.0.15c8881fa42.N797b</con2:id>
+                        <con2:disabled>true</con2:disabled>
+                        <con1:location>
+                            <con2:xpathText>.</con2:xpathText>
+                        </con1:location>
+                        <con1:expr>
+                            <con2:xqueryText><![CDATA[<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:v1="http://claro.com.ec/osb/Bss/message/DocumentMessage/v1">
+   <soap:Header/>
+   <soap:Body>
+      <v1:documentResponse>
+         <document>{$body/v1:documentRequest/documentData}</document>
+         <documentType>{$binaryFile/ctx:Content-Transfer-Encoding}</documentType>
+         <documentRef>{$binaryFile}</documentRef>
+      </v1:documentResponse>
+   </soap:Body>
+</soap:Envelope>]]></con2:xqueryText>
+                        </con1:expr>
+                    </con1:replace>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:flow>
+            <con:pipeline-node name="Pipeline Pair Node1">
+                <con:request>request-a1e1588.374323d5.0.15c8881fa42.N7a54</con:request>
+                <con:response>response-a1e1588.374323d5.0.15c8881fa42.N7a53</con:response>
+            </con:pipeline-node>
+        </con:flow>
+    </con:router>
+</con:pipelineEntry>
